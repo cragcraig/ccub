@@ -1,5 +1,6 @@
 syntax = "proto3";
 package carboncub;
+option go_package = "github.com/cragcraig/carboncub-build-log/protos";
 
 import "google/protobuf/timestamp.proto";
 
@@ -11,7 +12,7 @@ message PartReference {
   // TODO
 }
 
-message ManualReference (
+message ManualReference {
   // TODO
 }
 
