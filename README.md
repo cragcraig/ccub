@@ -12,6 +12,6 @@
 ### Protocol Buffers
 To rebuild the protocol buffer `.pb.go` file after changes to the `.proto` description:
 ```shell
-$ cd $SRC_DIR
-$ protoc --go_out=. build_log.proto
+cd $SRC_DIR
+protoc --go_out=. build_log.proto
 ```
