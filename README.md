@@ -5,7 +5,7 @@
 * [Go](https://golang.org/) language tooling
 * [Protocol Buffers](https://developers.google.com/protocol-buffers/docs/proto3)
   * [Protocol Buffers Basics: Go](https://developers.google.com/protocol-buffers/docs/gotutorial)
-  * [Compiling you protocol buffers](https://developers.google.com/protocol-buffers/docs/gotutorial#compiling-your-protocol-buffers)
+  * [Compiling Protocol Buffers](https://developers.google.com/protocol-buffers/docs/gotutorial#compiling-your-protocol-buffers)
 
 ## Build
 
