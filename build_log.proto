@@ -36,3 +36,7 @@ message BuildLogEntry {
   BuildWorkEntry work = 4;
 }
 
+// Top-level message
+message BuildLog {
+  repeated BuildLogEntry entries = 1;
+}

@@ -340,6 +340,54 @@ func (x *BuildLogEntry) GetWork() *BuildWorkEntry {
 	return nil
 }
 
+// Top-level message
+type BuildLog struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Entries []*BuildLogEntry `protobuf:"bytes,1,rep,name=entries,proto3" json:"entries,omitempty"`
+}
+
+func (x *BuildLog) Reset() {
+	*x = BuildLog{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_build_log_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BuildLog) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BuildLog) ProtoMessage() {}
+
+func (x *BuildLog) ProtoReflect() protoreflect.Message {
+	mi := &file_build_log_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BuildLog.ProtoReflect.Descriptor instead.
+func (*BuildLog) Descriptor() ([]byte, []int) {
+	return file_build_log_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *BuildLog) GetEntries() []*BuildLogEntry {
+	if x != nil {
+		return x.Entries
+	}
+	return nil
+}
+
 var File_build_log_proto protoreflect.FileDescriptor
 
 var file_build_log_proto_rawDesc = []byte{
@@ -382,7 +430,11 @@ var file_build_log_proto_rawDesc = []byte{
 	0x6e, 0x64, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x2d, 0x0a, 0x04, 0x77, 0x6f, 0x72, 0x6b, 0x18, 0x04,
 	0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63, 0x61, 0x72, 0x62, 0x6f, 0x6e, 0x63, 0x75, 0x62,
 	0x2e, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x57, 0x6f, 0x72, 0x6b, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52,
-	0x04, 0x77, 0x6f, 0x72, 0x6b, 0x42, 0x31, 0x5a, 0x2f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
+	0x04, 0x77, 0x6f, 0x72, 0x6b, 0x22, 0x3e, 0x0a, 0x08, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x4c, 0x6f,
+	0x67, 0x12, 0x32, 0x0a, 0x07, 0x65, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x18, 0x2e, 0x63, 0x61, 0x72, 0x62, 0x6f, 0x6e, 0x63, 0x75, 0x62, 0x2e, 0x42,
+	0x75, 0x69, 0x6c, 0x64, 0x4c, 0x6f, 0x67, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x07, 0x65, 0x6e,
+	0x74, 0x72, 0x69, 0x65, 0x73, 0x42, 0x31, 0x5a, 0x2f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
 	0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x72, 0x61, 0x67, 0x63, 0x72, 0x61, 0x69, 0x67, 0x2f, 0x63, 0x61,
 	0x72, 0x62, 0x6f, 0x6e, 0x63, 0x75, 0x62, 0x2d, 0x62, 0x75, 0x69, 0x6c, 0x64, 0x2d, 0x6c, 0x6f,
 	0x67, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
@@ -400,7 +452,7 @@ func file_build_log_proto_rawDescGZIP() []byte {
 	return file_build_log_proto_rawDescData
 }
 
-var file_build_log_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_build_log_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_build_log_proto_goTypes = []interface{}{
 	(*ImageReference)(nil),        // 0: carboncub.ImageReference
 	(*PartReference)(nil),         // 1: carboncub.PartReference
@@ -408,21 +460,23 @@ var file_build_log_proto_goTypes = []interface{}{
 	(*TaskDetails)(nil),           // 3: carboncub.TaskDetails
 	(*BuildWorkEntry)(nil),        // 4: carboncub.BuildWorkEntry
 	(*BuildLogEntry)(nil),         // 5: carboncub.BuildLogEntry
-	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
+	(*BuildLog)(nil),              // 6: carboncub.BuildLog
+	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
 }
 var file_build_log_proto_depIdxs = []int32{
 	0, // 0: carboncub.TaskDetails.images:type_name -> carboncub.ImageReference
 	1, // 1: carboncub.TaskDetails.parts:type_name -> carboncub.PartReference
 	2, // 2: carboncub.TaskDetails.manuals:type_name -> carboncub.ManualReference
 	3, // 3: carboncub.BuildWorkEntry.details:type_name -> carboncub.TaskDetails
-	6, // 4: carboncub.BuildLogEntry.start_time:type_name -> google.protobuf.Timestamp
-	6, // 5: carboncub.BuildLogEntry.end_time:type_name -> google.protobuf.Timestamp
+	7, // 4: carboncub.BuildLogEntry.start_time:type_name -> google.protobuf.Timestamp
+	7, // 5: carboncub.BuildLogEntry.end_time:type_name -> google.protobuf.Timestamp
 	4, // 6: carboncub.BuildLogEntry.work:type_name -> carboncub.BuildWorkEntry
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	5, // 7: carboncub.BuildLog.entries:type_name -> carboncub.BuildLogEntry
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_build_log_proto_init() }
@@ -503,6 +557,18 @@ func file_build_log_proto_init() {
 				return nil
 			}
 		}
+		file_build_log_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BuildLog); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -510,7 +576,7 @@ func file_build_log_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_build_log_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
