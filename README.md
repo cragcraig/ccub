@@ -7,11 +7,14 @@
   * [Protocol Buffers Basics: Go](https://developers.google.com/protocol-buffers/docs/gotutorial)
   * [Compiling Protocol Buffers](https://developers.google.com/protocol-buffers/docs/gotutorial#compiling-your-protocol-buffers)
 
+### MacOS
+
+* brew install golang protobuf protoc-gen-go
+
 ## Build
 
 ### Protocol Buffers
 To rebuild the protocol buffer `.pb.go` file after changes to the `.proto` description:
 ```shell
-cd $SRC_DIR
-protoc --go_out=. build_log.proto
+protoc --go_out=$GOPATH/src metadata.proto
 ```

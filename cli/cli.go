@@ -38,26 +38,12 @@ var commands = map[string]CommandEntry{
 		eg:    []string{"", "log now riveting main spar"},
 	},
 	// Normal commands
-	"init": CommandEntry{
-		name:  "init",
-		cmd:   InitCmd,
-		desc:  "Initialize a new build journal in the given directory",
-		usage: "DIRECTORY",
-		eg:    []string{"."},
-	},
-	"log": CommandEntry{
-		name:  "log",
-		cmd:   LogCmd,
-		desc:  "Begin a draft build log entry",
-		usage: "now|TIME|DATETIME [TITLE]",
-		eg:    []string{"now", "17:30", "now riveting main spar", "2021-05-30T17:30Z riveting main spar"},
-	},
-	"end": CommandEntry{
-		name:  "end",
-		cmd:   EndCmd,
-		desc:  "Finish the current draft log entry and record it in the journal",
-		usage: "now|TIME|DATETIME",
-		eg:    []string{"now", "19:00", "2021-05-30T19:00Z"},
+	"new": CommandEntry{
+		name:  "new",
+		cmd:   NewLogCmd,
+		desc:  "Initialize a new build log entry",
+		usage: "today|DATE",
+		eg:    []string{""},
 	},
 }
 
@@ -85,7 +71,7 @@ func Exec(cmdName string, argv []string) error {
 }
 
 func printVersion() {
-	fmt.Println("Carbon Cub Build Logger, version 0.0")
+	fmt.Println("Carbon Cub Build Logger, version 0.1")
 }
 
 func help(commands map[string]CommandEntry, argv []string) error {
