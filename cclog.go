@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/cragcraig/carboncub-build-log/cli"
+	"github.com/cragcraig/ccub/cli"
 	"os"
 	"strings"
 )

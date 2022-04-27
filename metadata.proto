@@ -1,6 +1,6 @@
 syntax = "proto3";
 package carboncub;
-option go_package = "github.com/cragcraig/carboncub-build-log/protos";
+option go_package = "github.com/cragcraig/ccub/logprotos";
 
 message TimeOfDay {
   uint32 hour = 1;
@@ -24,7 +24,7 @@ message BuildLogEntryMetadata {
 
   repeated TimePeriod work_period = 4;  
 
-  string log_filename = 5;
+  string log_file = 5;
   repeated string tags = 6;
 }
 

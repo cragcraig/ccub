@@ -7,38 +7,38 @@ import (
     "github.com/golang/protobuf/proto"
     "time"
     "strings"
-    ccprotos "github.com/cragcraig/carboncub-build-log/protos"
+    "github.com/cragcraig/ccub/logprotos"
 )
 
 const MonthLayout = "2006-Jan"
 const DateLayout = "2006-Jan-02"
 
-func readLogs(string filename) (ccproto.BuildLogs, error) {
-    fp, err := os.Open(logfn)
+func readLogs(filename string) (*logprotos.BuildLogs, error) {
+    fp, err := os.Open(filename)
     if err != nil {
-        return ccproto.BuildLogs{}, err
+        return &logprotos.BuildLogs{}, err
     }
     defer fp.Close()
     data, err := ioutil.ReadAll(fp)
     if err != nil {
-        return ccproto.BuildLogs{}, err
+        return &logprotos.BuildLogs{}, err
     }
     text := string(data)
-    entries := ccproto.BuildLogs{}
-    err = proto.UnmarshallText(text, &entries)
-    return entries, err
+    entries := logprotos.BuildLogs{}
+    err = proto.UnmarshalText(text, &entries)
+    return &entries, err
 }
 
-func writeLogs(string filename, ccproto.BuildLogs) error {
-    fp, err := os.Create("logs/" + date.Format(MonthLayout) + "/logs-new.textproto")
+func writeLogs(filename string, logs *logprotos.BuildLogs) error {
+    fp, err := os.Create(filename)
     if err != nil {
-        err
+        return err
     }
     defer fp.Close()
-    return proto.MarshalText(fp, &ex)
+    return proto.MarshalText(fp, logs)
 }
 
-func parseDateArg(string arg) (time.Time, error) {
+func parseDateArg(arg string) (time.Time, error) {
     if arg == "today" {
         return time.Now(), nil
     }
@@ -46,33 +46,35 @@ func parseDateArg(string arg) (time.Time, error) {
 }
 
 func NewLogCmd(cmd CommandEntry, argv []string) error {
-	if len(argv) != 2 {
+	if len(argv) != 3 {
 		return cmd.getUsageError()
 	}
-    d, err := parseDateArg(argv[1])
+    date, err := parseDateArg(argv[0])
     if err != nil {
         return err
     }
 
-    date := d.Date()
-    assembly := argv[2]
-    tags := strings.Split(argv[3], ",")
+    assembly := argv[1]
+    tags := strings.Split(argv[2], ",")
     
-    entry := ccproto.BuildLogEntryMetadata{
-        assembly: assembly
-        date: date.Format(DateLayout)
-        log_filename: date.Format(DateLayout) + ".md"
-        tags: tags
+    entry := logprotos.BuildLogEntryMetadata{
+        Assembly: assembly,
+        Date: date.Format(DateLayout),
+        LogFile: date.Format(DateLayout) + ".md",
+        Tags: tags,
     }
 
     fmt.Printf("%v\n", entry)
 
     logfile := "logs/" + date.Format(MonthLayout) + "/logs.textproto"
+    /*
     logs, err := readLogs(logfile)
     if err != nil {
-        return err
+        fmt.Printf("Could not open %s: %s\n", logfile, err.Error())
     }
-    logs.log_entry = append(prev.log_entry, entry)
+    */
+    logs := &logprotos.BuildLogs{}
+    logs.LogEntry = append(logs.LogEntry, &entry)
     return writeLogs(logfile, logs)
 }
 
