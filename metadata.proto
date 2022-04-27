@@ -2,13 +2,9 @@ syntax = "proto3";
 package carboncub;
 option go_package = "github.com/cragcraig/ccub/logprotos";
 
-message TimeOfDay {
-  uint32 hour = 1;
-  uint32 min = 2;
-}
-
 message TimePeriod {
-  TimeOfDay start = 1;
+  // e.g., 5:00PM
+  string start_time = 1;
   uint32 duration_min = 2;
 }
 

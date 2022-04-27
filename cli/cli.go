@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-const cliCmdName = "cclog"
+const cliCmdName = "ccub"
 const helpCmdName = "help"
 
 type CommandFunc func(CommandEntry, []string) error
@@ -35,15 +35,18 @@ var commands = map[string]CommandEntry{
 		cmd:   nil, // special case to avoid circular dep
 		desc:  "Provide help documentation",
 		usage: "[COMMAND]",
-		eg:    []string{"", "log now riveting main spar"},
+		eg:    []string{"", ""},
 	},
 	// Normal commands
-	"new": CommandEntry{
-		name:  "new",
+	"log": CommandEntry{
+		name:  "log",
 		cmd:   NewLogCmd,
 		desc:  "Initialize a new build log entry",
-		usage: "today|DATE",
-		eg:    []string{""},
+		usage: "ASSEMBLY today|DATE START-END[,START-END...] [TAG] [TAG] ...",
+        eg:    []string{
+            "\"left wing\" today 3pm-6:30pm \"center ribs\" \"solid rivets\"",
+            "\"fuselage\" 2022-Feb-08 11AM-4:15PM",
+        },
 	},
 }
 
@@ -71,7 +74,7 @@ func Exec(cmdName string, argv []string) error {
 }
 
 func printVersion() {
-	fmt.Println("Carbon Cub Build Logger, version 0.1")
+	fmt.Println("Carbon Cub Build Log, version 0.1")
 }
 
 func help(commands map[string]CommandEntry, argv []string) error {

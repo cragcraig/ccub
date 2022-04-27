@@ -20,74 +20,20 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type TimeOfDay struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Hour uint32 `protobuf:"varint,1,opt,name=hour,proto3" json:"hour,omitempty"`
-	Min  uint32 `protobuf:"varint,2,opt,name=min,proto3" json:"min,omitempty"`
-}
-
-func (x *TimeOfDay) Reset() {
-	*x = TimeOfDay{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_metadata_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *TimeOfDay) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*TimeOfDay) ProtoMessage() {}
-
-func (x *TimeOfDay) ProtoReflect() protoreflect.Message {
-	mi := &file_metadata_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use TimeOfDay.ProtoReflect.Descriptor instead.
-func (*TimeOfDay) Descriptor() ([]byte, []int) {
-	return file_metadata_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *TimeOfDay) GetHour() uint32 {
-	if x != nil {
-		return x.Hour
-	}
-	return 0
-}
-
-func (x *TimeOfDay) GetMin() uint32 {
-	if x != nil {
-		return x.Min
-	}
-	return 0
-}
-
 type TimePeriod struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Start       *TimeOfDay `protobuf:"bytes,1,opt,name=start,proto3" json:"start,omitempty"`
-	DurationMin uint32     `protobuf:"varint,2,opt,name=duration_min,json=durationMin,proto3" json:"duration_min,omitempty"`
+	// e.g., 5:00PM
+	StartTime   string `protobuf:"bytes,1,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	DurationMin uint32 `protobuf:"varint,2,opt,name=duration_min,json=durationMin,proto3" json:"duration_min,omitempty"`
 }
 
 func (x *TimePeriod) Reset() {
 	*x = TimePeriod{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_metadata_proto_msgTypes[1]
+		mi := &file_metadata_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -100,7 +46,7 @@ func (x *TimePeriod) String() string {
 func (*TimePeriod) ProtoMessage() {}
 
 func (x *TimePeriod) ProtoReflect() protoreflect.Message {
-	mi := &file_metadata_proto_msgTypes[1]
+	mi := &file_metadata_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -113,14 +59,14 @@ func (x *TimePeriod) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TimePeriod.ProtoReflect.Descriptor instead.
 func (*TimePeriod) Descriptor() ([]byte, []int) {
-	return file_metadata_proto_rawDescGZIP(), []int{1}
+	return file_metadata_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *TimePeriod) GetStart() *TimeOfDay {
+func (x *TimePeriod) GetStartTime() string {
 	if x != nil {
-		return x.Start
+		return x.StartTime
 	}
-	return nil
+	return ""
 }
 
 func (x *TimePeriod) GetDurationMin() uint32 {
@@ -149,7 +95,7 @@ type BuildLogEntryMetadata struct {
 func (x *BuildLogEntryMetadata) Reset() {
 	*x = BuildLogEntryMetadata{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_metadata_proto_msgTypes[2]
+		mi := &file_metadata_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -162,7 +108,7 @@ func (x *BuildLogEntryMetadata) String() string {
 func (*BuildLogEntryMetadata) ProtoMessage() {}
 
 func (x *BuildLogEntryMetadata) ProtoReflect() protoreflect.Message {
-	mi := &file_metadata_proto_msgTypes[2]
+	mi := &file_metadata_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -175,7 +121,7 @@ func (x *BuildLogEntryMetadata) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BuildLogEntryMetadata.ProtoReflect.Descriptor instead.
 func (*BuildLogEntryMetadata) Descriptor() ([]byte, []int) {
-	return file_metadata_proto_rawDescGZIP(), []int{2}
+	return file_metadata_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *BuildLogEntryMetadata) GetAssembly() string {
@@ -231,7 +177,7 @@ type BuildLogs struct {
 func (x *BuildLogs) Reset() {
 	*x = BuildLogs{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_metadata_proto_msgTypes[3]
+		mi := &file_metadata_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -244,7 +190,7 @@ func (x *BuildLogs) String() string {
 func (*BuildLogs) ProtoMessage() {}
 
 func (x *BuildLogs) ProtoReflect() protoreflect.Message {
-	mi := &file_metadata_proto_msgTypes[3]
+	mi := &file_metadata_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -257,7 +203,7 @@ func (x *BuildLogs) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BuildLogs.ProtoReflect.Descriptor instead.
 func (*BuildLogs) Descriptor() ([]byte, []int) {
-	return file_metadata_proto_rawDescGZIP(), []int{3}
+	return file_metadata_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *BuildLogs) GetLogEntry() []*BuildLogEntryMetadata {
@@ -271,14 +217,10 @@ var File_metadata_proto protoreflect.FileDescriptor
 
 var file_metadata_proto_rawDesc = []byte{
 	0x0a, 0x0e, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x12, 0x09, 0x63, 0x61, 0x72, 0x62, 0x6f, 0x6e, 0x63, 0x75, 0x62, 0x22, 0x31, 0x0a, 0x09, 0x54,
-	0x69, 0x6d, 0x65, 0x4f, 0x66, 0x44, 0x61, 0x79, 0x12, 0x12, 0x0a, 0x04, 0x68, 0x6f, 0x75, 0x72,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x04, 0x68, 0x6f, 0x75, 0x72, 0x12, 0x10, 0x0a, 0x03,
-	0x6d, 0x69, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x03, 0x6d, 0x69, 0x6e, 0x22, 0x5b,
-	0x0a, 0x0a, 0x54, 0x69, 0x6d, 0x65, 0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x12, 0x2a, 0x0a, 0x05,
-	0x73, 0x74, 0x61, 0x72, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x63, 0x61,
-	0x72, 0x62, 0x6f, 0x6e, 0x63, 0x75, 0x62, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x4f, 0x66, 0x44, 0x61,
-	0x79, 0x52, 0x05, 0x73, 0x74, 0x61, 0x72, 0x74, 0x12, 0x21, 0x0a, 0x0c, 0x64, 0x75, 0x72, 0x61,
+	0x12, 0x09, 0x63, 0x61, 0x72, 0x62, 0x6f, 0x6e, 0x63, 0x75, 0x62, 0x22, 0x4e, 0x0a, 0x0a, 0x54,
+	0x69, 0x6d, 0x65, 0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x74, 0x61,
+	0x72, 0x74, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73,
+	0x74, 0x61, 0x72, 0x74, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x21, 0x0a, 0x0c, 0x64, 0x75, 0x72, 0x61,
 	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6d, 0x69, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x0b,
 	0x64, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x69, 0x6e, 0x22, 0xd0, 0x01, 0x0a, 0x15,
 	0x42, 0x75, 0x69, 0x6c, 0x64, 0x4c, 0x6f, 0x67, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x4d, 0x65, 0x74,
@@ -316,22 +258,20 @@ func file_metadata_proto_rawDescGZIP() []byte {
 	return file_metadata_proto_rawDescData
 }
 
-var file_metadata_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_metadata_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_metadata_proto_goTypes = []interface{}{
-	(*TimeOfDay)(nil),             // 0: carboncub.TimeOfDay
-	(*TimePeriod)(nil),            // 1: carboncub.TimePeriod
-	(*BuildLogEntryMetadata)(nil), // 2: carboncub.BuildLogEntryMetadata
-	(*BuildLogs)(nil),             // 3: carboncub.BuildLogs
+	(*TimePeriod)(nil),            // 0: carboncub.TimePeriod
+	(*BuildLogEntryMetadata)(nil), // 1: carboncub.BuildLogEntryMetadata
+	(*BuildLogs)(nil),             // 2: carboncub.BuildLogs
 }
 var file_metadata_proto_depIdxs = []int32{
-	0, // 0: carboncub.TimePeriod.start:type_name -> carboncub.TimeOfDay
-	1, // 1: carboncub.BuildLogEntryMetadata.work_period:type_name -> carboncub.TimePeriod
-	2, // 2: carboncub.BuildLogs.log_entry:type_name -> carboncub.BuildLogEntryMetadata
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	0, // 0: carboncub.BuildLogEntryMetadata.work_period:type_name -> carboncub.TimePeriod
+	1, // 1: carboncub.BuildLogs.log_entry:type_name -> carboncub.BuildLogEntryMetadata
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_metadata_proto_init() }
@@ -341,18 +281,6 @@ func file_metadata_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_metadata_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TimeOfDay); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_metadata_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*TimePeriod); i {
 			case 0:
 				return &v.state
@@ -364,7 +292,7 @@ func file_metadata_proto_init() {
 				return nil
 			}
 		}
-		file_metadata_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_metadata_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*BuildLogEntryMetadata); i {
 			case 0:
 				return &v.state
@@ -376,7 +304,7 @@ func file_metadata_proto_init() {
 				return nil
 			}
 		}
-		file_metadata_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_metadata_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*BuildLogs); i {
 			case 0:
 				return &v.state
@@ -395,7 +323,7 @@ func file_metadata_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_metadata_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
