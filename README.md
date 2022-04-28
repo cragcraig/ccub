@@ -9,7 +9,9 @@
 
 ### MacOS
 
-* brew install golang protobuf protoc-gen-go
+```shell
+brew install golang protobuf protoc-gen-go
+```
 
 ## Build
 
