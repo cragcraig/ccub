@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"github.com/cragcraig/ccub/protos"
 	"github.com/golang/protobuf/proto"
+	"io"
 	"io/ioutil"
 	"math"
-    "io"
 	"os"
 	"regexp"
 	"sort"
 	"strconv"
 	"strings"
+	"text/template"
 	"time"
-    "text/template"
 )
 
 const MonthLayout = "2006-Jan"
@@ -70,7 +70,7 @@ func readFile(filename string) (string, error) {
 }
 
 func readLogs(filename string) (*protos.BuildLogs, error) {
-    text, err := readFile(filename)
+	text, err := readFile(filename)
 	if err != nil {
 		return &protos.BuildLogs{}, err
 	}
@@ -80,11 +80,11 @@ func readLogs(filename string) (*protos.BuildLogs, error) {
 }
 
 func loadTemplateFromFile(filename string) (*template.Template, error) {
-    text, err := readFile(filename)
+	text, err := readFile(filename)
 	if err != nil {
 		return nil, err
 	}
-    tmpl := template.New(filename)
+	tmpl := template.New(filename)
 	return tmpl.Parse(text)
 }
 
@@ -264,35 +264,35 @@ func RenderCmd(cmd CommandEntry, argv []string) error {
 	if len(argv) != 1 {
 		return cmd.getUsageError()
 	}
-    tmpl, err := loadTemplateFromFile(argv[0])
-    if err != nil {
-        return err
-    }
-    logs, err := readLogs(logsPath)
+	tmpl, err := loadTemplateFromFile(argv[0])
+	if err != nil {
+		return err
+	}
+	logs, err := readLogs(logsPath)
 
-    // Render each log
-    for _, log := range logs.LogEntry {
-        // Render log entry using template
-        err := tmpl.Execute(os.Stdout, log)
-        if err != nil {
-            return err
-        }
-        date, err := time.Parse(DateLayout, log.Date)
-        if err != nil {
-            return err
-        }
-        // Append associated details Markdown file
-        details, err := readFile(logDetailsFile([]string{LogsDir}, date))
-        if err != nil {
-            if !os.IsNotExist(err) {
-                return err
-            }
-            details = "No details"
-        }
-        if _, err := io.WriteString(os.Stdout, details + "\n"); err != nil {
-            return err
-        }
-    }
+	// Render each log
+	for _, log := range logs.LogEntry {
+		// Render log entry using template
+		err := tmpl.Execute(os.Stdout, log)
+		if err != nil {
+			return err
+		}
+		date, err := time.Parse(DateLayout, log.Date)
+		if err != nil {
+			return err
+		}
+		// Append associated details Markdown file
+		details, err := readFile(logDetailsFile([]string{LogsDir}, date))
+		if err != nil {
+			if !os.IsNotExist(err) {
+				return err
+			}
+			details = "No details"
+		}
+		if _, err := io.WriteString(os.Stdout, details+"\n"); err != nil {
+			return err
+		}
+	}
 
 	return nil
 }
