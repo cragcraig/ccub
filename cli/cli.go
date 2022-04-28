@@ -43,10 +43,10 @@ var commands = map[string]CommandEntry{
 		cmd:   NewLogCmd,
 		desc:  "Initialize a new build log entry",
 		usage: "ASSEMBLY today|DATE START-END[,START-END...] [TAG] [TAG] ...",
-        eg:    []string{
-            "\"left wing\" today 3pm-6:30pm \"center ribs\" \"solid rivets\"",
-            "\"fuselage\" 2022-Feb-08 11AM-4:15PM",
-        },
+		eg: []string{
+			"\"left wing\" today 3pm-6:30pm \"center ribs\" \"solid rivets\"",
+			"\"fuselage\" 2022-Feb-08 11AM-4:15PM",
+		},
 	},
 }
 

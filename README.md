@@ -16,5 +16,5 @@
 ### Protocol Buffers
 To rebuild the protocol buffer `.pb.go` file after changes to the `.proto` description:
 ```shell
-protoc --go_out=$GOPATH/src metadata.proto
+protoc --go_out=$GOPATH/src protos.proto
 ```
