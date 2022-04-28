@@ -6,18 +6,21 @@ import (
 	"github.com/golang/protobuf/proto"
 	"io/ioutil"
 	"math"
+    "io"
 	"os"
 	"regexp"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
+    "text/template"
 )
 
 const MonthLayout = "2006-Jan"
 const DateLayout = "2006-Jan-02"
 const LogsDir = "log"
 const LogsFile = "buildlog.textproto"
+const logsPath = LogsDir + "/" + LogsFile
 
 var kitchenTimePattern = regexp.MustCompile(`^(\d+)(:\d\d)?(AM|PM|am|pm)$`)
 var validAssemblies = []string{
@@ -30,7 +33,7 @@ var validAssemblies = []string{
 	"gear",
 }
 
-const logDetailsTemplate = "## title - %s \n\ntext"
+const logDetailsTemplate = ""
 
 func contains(s []string, str string) bool {
 	for _, v := range s {
@@ -53,20 +56,36 @@ func logExists(date string, logs *protos.BuildLogs) bool {
 	return false
 }
 
-func readLogs(filename string) (*protos.BuildLogs, error) {
+func readFile(filename string) (string, error) {
 	fp, err := os.Open(filename)
 	if err != nil {
-		return &protos.BuildLogs{}, err
+		return "", err
 	}
 	defer fp.Close()
 	data, err := ioutil.ReadAll(fp)
 	if err != nil {
+		return "", err
+	}
+	return string(data), nil
+}
+
+func readLogs(filename string) (*protos.BuildLogs, error) {
+    text, err := readFile(filename)
+	if err != nil {
 		return &protos.BuildLogs{}, err
 	}
-	text := string(data)
 	entries := protos.BuildLogs{}
 	err = proto.UnmarshalText(text, &entries)
 	return &entries, err
+}
+
+func loadTemplateFromFile(filename string) (*template.Template, error) {
+    text, err := readFile(filename)
+	if err != nil {
+		return nil, err
+	}
+    tmpl := template.New(filename)
+	return tmpl.Parse(text)
 }
 
 func ensureDirExists(dir string) error {
@@ -164,7 +183,7 @@ func createLogDetailsFile(assembly string, date time.Time) (string, error) {
 		return "", err
 	}
 	file := logDetailsFile([]string{LogsDir}, date)
-	if err := os.WriteFile(file, []byte(fmt.Sprintf(logDetailsTemplate, strings.Title(assembly))), 0666); err != nil {
+	if err := os.WriteFile(file, []byte(logDetailsTemplate), 0666); err != nil {
 		return "", err
 	}
 	return file, nil
@@ -228,11 +247,10 @@ func NewLogCmd(cmd CommandEntry, argv []string) error {
 		Tags:        tags,
 	}
 
-	logsfile := LogsDir + "/" + LogsFile
-	if err := updateLogMetadataFile(logsfile, &entry); err != nil {
+	if err := updateLogMetadataFile(logsPath, &entry); err != nil {
 		return err
 	}
-	fmt.Printf("Logged:   %s\n", logsfile)
+	fmt.Printf("Logged:   %s\n", logsPath)
 	//fmt.Printf("%s\n", entry.String())
 	if file, err := createLogDetailsFile(assembly, date); err != nil {
 		return err
@@ -242,18 +260,49 @@ func NewLogCmd(cmd CommandEntry, argv []string) error {
 	return nil
 }
 
-func LogCmd(cmd CommandEntry, argv []string) error {
+func RenderCmd(cmd CommandEntry, argv []string) error {
 	if len(argv) != 1 {
 		return cmd.getUsageError()
 	}
-	fmt.Println("TODO: Log")
+    tmpl, err := loadTemplateFromFile(argv[0])
+    if err != nil {
+        return err
+    }
+    logs, err := readLogs(logsPath)
+
+    // Render each log
+    for _, log := range logs.LogEntry {
+        // Render log entry using template
+        err := tmpl.Execute(os.Stdout, log)
+        if err != nil {
+            return err
+        }
+        date, err := time.Parse(DateLayout, log.Date)
+        if err != nil {
+            return err
+        }
+        // Append associated details Markdown file
+        details, err := readFile(logDetailsFile([]string{LogsDir}, date))
+        if err != nil {
+            if !os.IsNotExist(err) {
+                return err
+            }
+            details = "No details"
+        }
+        if _, err := io.WriteString(os.Stdout, details + "\n"); err != nil {
+            return err
+        }
+    }
+
 	return nil
 }
 
-func EndCmd(cmd CommandEntry, argv []string) error {
+/*
+func ExampleCmd(cmd CommandEntry, argv []string) error {
 	if len(argv) != 1 {
 		return cmd.getUsageError()
 	}
-	fmt.Println("TODO: End")
+	fmt.Println("TODO: Implement")
 	return nil
 }
+*/

@@ -48,6 +48,15 @@ var commands = map[string]CommandEntry{
 			"\"fuselage\" 2022-Feb-08 11AM-4:15PM",
 		},
 	},
+	"render": CommandEntry{
+		name:  "render",
+		cmd:   RenderCmd,
+		desc:  "Render logs to Markdown using the provided template",
+		usage: "TEMPLATE_FILE",
+		eg: []string{
+			"template.md",
+		},
+	},
 }
 
 func (cmd CommandEntry) getUsageError() error {
