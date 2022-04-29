@@ -205,10 +205,11 @@ func RenderCmd(cmd CommandEntry, argv []string) error {
 		// Append associated details Markdown file
 		details, err := readFile(logDetailsFile([]string{LogsDir}, date))
 		if err != nil {
-			if !os.IsNotExist(err) {
+			if os.IsNotExist(err) {
+				details = "No details"
+			} else {
 				return err
 			}
-			details = "No details"
 		}
 		if _, err := io.WriteString(os.Stdout, details+"\n"); err != nil {
 			return err
