@@ -122,7 +122,7 @@ func updateLogMetadataFile(f string, entry *protos.BuildLogEntry, overwrite bool
 		logs.LogEntry = append(logs.LogEntry, entry)
 	}
 
-	// Sorted by date
+	// Ensure logs are ordered by date
 	sort.Slice(logs.LogEntry, func(i, j int) bool {
 		it, _ := parseDateOfLog(logs.LogEntry[i])
 		jt, _ := parseDateOfLog(logs.LogEntry[j])
