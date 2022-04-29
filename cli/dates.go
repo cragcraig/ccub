@@ -99,3 +99,11 @@ func parseDurationsArg(year int, month time.Month, day int, arg string) ([]*prot
 	}
 	return periods, nil
 }
+
+func parseDateOfLog(log *protos.BuildLogEntry) (time.Time, error) {
+	return time.Parse(DateLayout, log.Date)
+}
+
+func formatDateForLog(date time.Time) string {
+	return date.Format(DateLayout)
+}

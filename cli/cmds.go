@@ -37,12 +37,13 @@ func containsString(s []string, str string) bool {
 	return false
 }
 
-func logExists(date string, logs *protos.BuildLogs) (exists bool, index int) {
+func logExists(date time.Time, logs *protos.BuildLogs) (exists bool, index int) {
 	if logs.LogEntry == nil {
 		return false, -1
 	}
+	d := formatDateForLog(date)
 	for i, v := range logs.LogEntry {
-		if v.Date == date {
+		if v.Date == d {
 			return true, i
 		}
 	}
@@ -104,7 +105,11 @@ func updateLogMetadataFile(f string, entry *protos.BuildLogEntry, overwrite bool
 		return fmt.Errorf("Could not open logs metadata from %s\n", f, err.Error())
 	}
 
-	exists, index := logExists(entry.Date, logs)
+	date, err := parseDateOfLog(entry)
+	if err != nil {
+		return err
+	}
+	exists, index := logExists(date, logs)
 	// Don't overwrite
 	if !overwrite && exists {
 		return fmt.Errorf("Log entry already exists for %s", entry.Date)
@@ -119,8 +124,8 @@ func updateLogMetadataFile(f string, entry *protos.BuildLogEntry, overwrite bool
 
 	// Sorted by date
 	sort.Slice(logs.LogEntry, func(i, j int) bool {
-		it, _ := time.Parse(DateLayout, logs.LogEntry[i].Date)
-		jt, _ := time.Parse(DateLayout, logs.LogEntry[j].Date)
+		it, _ := parseDateOfLog(logs.LogEntry[i])
+		jt, _ := parseDateOfLog(logs.LogEntry[j])
 		return jt.After(it)
 	})
 
@@ -158,7 +163,7 @@ func LogCmd(cmd CommandEntry, argv []string) error {
 
 	entry := protos.BuildLogEntry{
 		Assembly:    assembly,
-		Date:        date.Format(DateLayout),
+		Date:        formatDateForLog(date),
 		WorkPeriod:  times,
 		DetailsFile: logDetailsFile([]string{}, date),
 		Tags:        tags,
