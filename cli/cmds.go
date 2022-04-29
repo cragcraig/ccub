@@ -39,6 +39,27 @@ var validAssemblies = []string{
 	"gear",
 }
 
+type dateForm struct {
+	layout string
+	adjust func(time.Time) time.Time
+}
+
+func timeNoAdjust(t time.Time) time.Time {
+	return t
+}
+
+func timeAddYear(t time.Time) time.Time {
+	return t.AddDate(time.Now().Year(), 0, 0)
+}
+
+var validDateLayouts = []dateForm{
+	dateForm{DateLayout, timeNoAdjust},
+	dateForm{"2006-_1-_2", timeNoAdjust},
+	dateForm{"Jan-_2", timeAddYear},
+	dateForm{"1-_2", timeAddYear},
+	dateForm{"1/_2", timeAddYear},
+}
+
 func contains(s []string, str string) bool {
 	for _, v := range s {
 		if v == str {
@@ -161,7 +182,16 @@ func parseDateArg(arg string) (time.Time, error) {
 	} else if arg == "yesterday" {
 		return time.Now().AddDate(0, 0, -1), nil
 	}
-	return time.Parse(DateLayout, arg)
+	for _, df := range validDateLayouts {
+		if t, err := time.Parse(df.layout, arg); err == nil {
+			return df.adjust(t), nil
+		}
+	}
+	valid := []string{"today", "yesterday"}
+	for _, v := range validDateLayouts {
+		valid = append(valid, v.layout)
+	}
+	return time.Time{}, fmt.Errorf("Bad date %s, valid forms are:\n  %s", arg, strings.Join(valid, "\n  "))
 }
 
 func parseKitchenTime(year int, month time.Month, day int, kitchen string) (time.Time, error) {
