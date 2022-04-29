@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"errors"
 	"fmt"
 	"github.com/cragcraig/ccub/protos"
 	"github.com/golang/protobuf/proto"
@@ -8,6 +9,7 @@ import (
 	"io/ioutil"
 	"math"
 	"os"
+	"os/exec"
 	"regexp"
 	"sort"
 	"strconv"
@@ -16,11 +18,15 @@ import (
 	"time"
 )
 
-const MonthLayout = "2006-Jan"
-const DateLayout = "2006-Jan-02"
-const LogsDir = "log"
-const LogsFile = "buildlog.textproto"
-const logsPath = LogsDir + "/" + LogsFile
+const (
+	MonthLayout = "2006-Jan"
+	DateLayout  = "2006-Jan-02"
+
+	LogsDir            = "log"
+	LogsFile           = "buildlog.textproto"
+	logsPath           = LogsDir + "/" + LogsFile
+	logDetailsTemplate = ""
+)
 
 var kitchenTimePattern = regexp.MustCompile(`^(\d+)(:\d\d)?(AM|PM|am|pm)$`)
 var validAssemblies = []string{
@@ -33,8 +39,6 @@ var validAssemblies = []string{
 	"gear",
 }
 
-const logDetailsTemplate = ""
-
 func contains(s []string, str string) bool {
 	for _, v := range s {
 		if v == str {
@@ -44,20 +48,20 @@ func contains(s []string, str string) bool {
 	return false
 }
 
-func logExists(date string, logs *protos.BuildLogs) bool {
+func logExists(date string, logs *protos.BuildLogs) (exists bool, index int) {
 	if logs.LogEntry == nil {
-		return false
+		return false, -1
 	}
-	for _, v := range logs.LogEntry {
+	for i, v := range logs.LogEntry {
 		if v.Date == date {
-			return true
+			return true, i
 		}
 	}
-	return false
+	return false, -1
 }
 
-func readFile(filename string) (string, error) {
-	fp, err := os.Open(filename)
+func readFile(f string) (string, error) {
+	fp, err := os.Open(f)
 	if err != nil {
 		return "", err
 	}
@@ -69,8 +73,18 @@ func readFile(filename string) (string, error) {
 	return string(data), nil
 }
 
-func readLogs(filename string) (*protos.BuildLogs, error) {
-	text, err := readFile(filename)
+func fileExists(f string) (bool, error) {
+	if _, err := os.Stat(f); err == nil {
+		return true, nil
+	} else if errors.Is(err, os.ErrNotExist) {
+		return false, nil
+	} else {
+		return false, err
+	}
+}
+
+func readLogs(f string) (*protos.BuildLogs, error) {
+	text, err := readFile(f)
 	if err != nil {
 		return &protos.BuildLogs{}, err
 	}
@@ -79,12 +93,12 @@ func readLogs(filename string) (*protos.BuildLogs, error) {
 	return &entries, err
 }
 
-func loadTemplateFromFile(filename string) (*template.Template, error) {
-	text, err := readFile(filename)
+func loadTemplateFromFile(f string) (*template.Template, error) {
+	text, err := readFile(f)
 	if err != nil {
 		return nil, err
 	}
-	tmpl := template.New(filename)
+	tmpl := template.New(f)
 	return tmpl.Parse(text)
 }
 
@@ -106,12 +120,12 @@ func ensureDirExists(dir string) error {
 	return nil
 }
 
-func writeLogs(filename string, logs *protos.BuildLogs) error {
+func writeLogs(f string, logs *protos.BuildLogs) error {
 	err := ensureDirExists(LogsDir)
 	if err != nil {
 		return err
 	}
-	fp, err := os.Create(filename)
+	fp, err := os.Create(f)
 	if err != nil {
 		return err
 	}
@@ -119,9 +133,33 @@ func writeLogs(filename string, logs *protos.BuildLogs) error {
 	return proto.MarshalText(fp, logs)
 }
 
+func launchEditor(f string) error {
+	editor := os.Getenv("EDITOR")
+	if len(editor) == 0 {
+		return errors.New("Environment variable EDITOR is not set")
+	}
+	path, err := exec.LookPath(editor)
+	if err != nil {
+		return err
+	}
+	cmd := exec.Command(path, f)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Start(); err != nil {
+		return err
+	}
+	if err := cmd.Wait(); err != nil {
+		return err
+	}
+	return nil
+}
+
 func parseDateArg(arg string) (time.Time, error) {
 	if arg == "today" {
 		return time.Now(), nil
+	} else if arg == "yesterday" {
+		return time.Now().AddDate(0, 0, -1), nil
 	}
 	return time.Parse(DateLayout, arg)
 }
@@ -178,39 +216,54 @@ func logDetailsFile(basedir []string, date time.Time) string {
 	return strings.Join([]string{logDetailsDir(basedir, date), date.Format(DateLayout) + ".md"}, "/")
 }
 
-func createLogDetailsFile(assembly string, date time.Time) (string, error) {
+func createLogDetailsFile(assembly string, date time.Time, overwrite bool) (string, error) {
 	if err := ensureDirExists(logDetailsDir([]string{LogsDir}, date)); err != nil {
 		return "", err
 	}
-	file := logDetailsFile([]string{LogsDir}, date)
-	if err := os.WriteFile(file, []byte(logDetailsTemplate), 0666); err != nil {
+	f := logDetailsFile([]string{LogsDir}, date)
+	if !overwrite {
+		if exists, err := fileExists(f); err != nil {
+			return "", err
+		} else if exists {
+			return f, fmt.Errorf("Log details file %s already exists", f)
+		}
+	}
+	if err := os.WriteFile(f, []byte(logDetailsTemplate), 0666); err != nil {
 		return "", err
 	}
-	return file, nil
+	return f, nil
 }
 
-func updateLogMetadataFile(file string, entry *protos.BuildLogEntryMetadata) error {
-	logs, err := readLogs(file)
+func updateLogMetadataFile(f string, entry *protos.BuildLogEntry, overwrite bool) error {
+	logs, err := readLogs(f)
 	if err != nil && !os.IsNotExist(err) {
-		return fmt.Errorf("Could not open logs metadata from %s\n", file, err.Error())
+		return fmt.Errorf("Could not open logs metadata from %s\n", f, err.Error())
 	}
 
-	if logExists(entry.Date, logs) {
+	exists, index := logExists(entry.Date, logs)
+	// Don't overwrite
+	if !overwrite && exists {
 		return fmt.Errorf("Log entry already exists for %s", entry.Date)
 	}
 
-	logs.LogEntry = append(logs.LogEntry, entry)
+	// Overwrite if exists, otherwise append
+	if exists {
+		logs.LogEntry[index] = entry
+	} else {
+		logs.LogEntry = append(logs.LogEntry, entry)
+	}
 
+	// Sorted by date
 	sort.Slice(logs.LogEntry, func(i, j int) bool {
 		it, _ := time.Parse(DateLayout, logs.LogEntry[i].Date)
 		jt, _ := time.Parse(DateLayout, logs.LogEntry[j].Date)
 		return jt.After(it)
 	})
 
-	return writeLogs(file, logs)
+	return writeLogs(f, logs)
 }
 
-func NewLogCmd(cmd CommandEntry, argv []string) error {
+func LogCmd(cmd CommandEntry, argv []string) error {
 	if len(argv) < 3 {
 		return cmd.getUsageError()
 	}
@@ -239,7 +292,7 @@ func NewLogCmd(cmd CommandEntry, argv []string) error {
 		tags = argv[3:]
 	}
 
-	entry := protos.BuildLogEntryMetadata{
+	entry := protos.BuildLogEntry{
 		Assembly:    assembly,
 		Date:        date.Format(DateLayout),
 		WorkPeriod:  times,
@@ -247,17 +300,16 @@ func NewLogCmd(cmd CommandEntry, argv []string) error {
 		Tags:        tags,
 	}
 
-	if err := updateLogMetadataFile(logsPath, &entry); err != nil {
+	if err := updateLogMetadataFile(logsPath, &entry, false); err != nil {
 		return err
 	}
 	fmt.Printf("Logged:   %s\n", logsPath)
-	//fmt.Printf("%s\n", entry.String())
-	if file, err := createLogDetailsFile(assembly, date); err != nil {
+	if f, err := createLogDetailsFile(assembly, date, false); err != nil {
 		return err
 	} else {
-		fmt.Printf("Details:  %s\n", file)
+		fmt.Printf("Details:  %s\n", f)
+		return launchEditor(f)
 	}
-	return nil
 }
 
 func RenderCmd(cmd CommandEntry, argv []string) error {

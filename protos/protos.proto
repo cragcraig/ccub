@@ -8,7 +8,7 @@ message TimePeriod {
   uint32 duration_min = 2;
 }
 
-message BuildLogEntryMetadata {
+message BuildLogEntry {
   // Top-level component, i.e., "left wing"
   string assembly = 1;
 
@@ -25,5 +25,5 @@ message BuildLogEntryMetadata {
 }
 
 message BuildLogs {
-  repeated BuildLogEntryMetadata log_entry = 1;
+  repeated BuildLogEntry log_entry = 1;
 }

@@ -40,9 +40,9 @@ var commands = map[string]CommandEntry{
 	// Normal commands
 	"log": CommandEntry{
 		name:  "log",
-		cmd:   NewLogCmd,
+		cmd:   LogCmd,
 		desc:  "Initialize a new build log entry",
-		usage: "ASSEMBLY today|DATE START-END[,START-END...] [TAG] [TAG] ...",
+		usage: "ASSEMBLY today|yesterday|DATE START-END[,START-END...] [TAG] [TAG] ...",
 		eg: []string{
 			"\"left wing\" today 3pm-6:30pm \"center ribs\" \"solid rivets\"",
 			"\"fuselage\" 2022-Feb-08 11AM-4:15PM",
@@ -90,9 +90,9 @@ func help(commands map[string]CommandEntry, argv []string) error {
 	if len(argv) == 0 {
 		printVersion()
 		fmt.Println("")
-		fmt.Printf("Usage:  %s COMMAND [ARG1] [ARG2...]\n", cliCmdName)
+		fmt.Printf("Usage:  %s COMMAND [arg1] [arg2...] [-flag1] [-flag2...]\n", cliCmdName)
 		fmt.Printf(" e.g.,  %s help init\n", cliCmdName)
-		fmt.Printf("        %s log now Riveting main spar\n", cliCmdName)
+		fmt.Printf("        %s log \"left wing\" today 1pm-3:15pm\n", cliCmdName)
 		fmt.Println("")
 		fmt.Println("Commands:")
 		// Get length of the longest command
