@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/cragcraig/ccub/cli"
-	"github.com/cragcraig/ccub/cmdlog"
+	"github.com/cragcraig/ccub/cmds/log"
 	"os"
 	"strings"
 )
@@ -11,7 +11,7 @@ import (
 const cliName = "ccub"
 
 var commands = map[string]cli.CommandFactory{
-	"log": cmdlog.NewFactory(),
+	"log": log.NewFactory(),
 }
 
 func main() {
