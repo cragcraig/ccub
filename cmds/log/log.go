@@ -7,8 +7,6 @@ import (
 	"github.com/cragcraig/ccub/buildlog"
 	"github.com/cragcraig/ccub/cli"
 	"github.com/cragcraig/ccub/protos"
-	"io"
-	"os"
 	"strings"
 	"time"
 )
@@ -17,20 +15,11 @@ const (
 	logDetailsTemplate = ""
 )
 
-var Factory = cli.NewStaticCommandFactory(
+var CmdFactory = cli.NewStaticCommandFactory(
 	cli.CommandMetadata{
 		Description: "Log a build entry",
 	},
 	func(name string) cli.Command { return &logCmd{name: name} })
-
-func containsString(s []string, str string) bool {
-	for _, v := range s {
-		if v == str {
-			return true
-		}
-	}
-	return false
-}
 
 type logCmd struct {
 	name        string
@@ -114,42 +103,4 @@ func (c *logCmd) Execute() error {
 		fmt.Printf("Details:  %s\n", f)
 		return buildlog.LaunchEditor(f)
 	}
-}
-
-func RenderCmd(argv []string) error {
-	if len(argv) != 1 {
-		return errors.New("invalid args")
-	}
-	tmpl, err := buildlog.LoadTemplateFromFile(argv[0])
-	if err != nil {
-		return err
-	}
-	logs, err := buildlog.ReadLogs(buildlog.LogsPath)
-
-	// Render each log
-	for _, log := range logs.LogEntry {
-		// Render log entry using template
-		err := tmpl.Execute(os.Stdout, log)
-		if err != nil {
-			return err
-		}
-		date, err := time.Parse(buildlog.DateLayout, log.Date)
-		if err != nil {
-			return err
-		}
-		// Append associated details Markdown file
-		details, err := buildlog.ReadFile(buildlog.LogDetailsFile([]string{buildlog.LogsDir}, date))
-		if err != nil {
-			if os.IsNotExist(err) {
-				details = "No details"
-			} else {
-				return err
-			}
-		}
-		if _, err := io.WriteString(os.Stdout, details+"\n"); err != nil {
-			return err
-		}
-	}
-
-	return nil
 }
