@@ -8,34 +8,54 @@ import (
 
 const helpCmdName = "help"
 
+type Command interface {
+	Parse(args []string) error
+	Execute() error
+}
+
 type CommandMetadata struct {
-    Name string
-    Description string
+	Description string
 }
 
 type CommandFactory interface {
-    Metadata() CommandMetadata
-    Create(name string) Command
+	Metadata() CommandMetadata
+	Create(name string) Command
 }
 
-type Command interface {
-    Parse(args []string) error
-    Execute() error
+func NewStaticCommandFactory(metadata CommandMetadata, factoryFn func(name string) Command) CommandFactory {
+	return &staticCommandFactory{
+		metadata:  metadata,
+		factoryFn: factoryFn,
+	}
 }
+
+type staticCommandFactory struct {
+	metadata  CommandMetadata
+	factoryFn func(name string) Command
+}
+
+func (m *staticCommandFactory) Metadata() CommandMetadata {
+	return m.metadata
+}
+
+func (m *staticCommandFactory) Create(name string) Command {
+	return m.factoryFn(name)
+}
+
 func Exec(commands map[string]CommandFactory, cliName string, cmdName string, argv []string) error {
 	if cmdName == helpCmdName || cmdName == "" {
 		// Help
 		return help(commands, cliName, argv)
 	} else if factory, exists := commands[cmdName]; exists {
 		// All other commands
-        cmd := factory.Create(cmdName)
-        if err := cmd.Parse(argv); err != nil {
-            if errors.Is(err, flag.ErrHelp) {
-                return nil
-            }
-            return err
-        }
-        return cmd.Execute()
+		cmd := factory.Create(cmdName)
+		if err := cmd.Parse(argv); err != nil {
+			if errors.Is(err, flag.ErrHelp) {
+				return nil
+			}
+			return err
+		}
+		return cmd.Execute()
 	} else {
 		// Unrecognized
 		return fmt.Errorf("Unrecognized command \"%s\", try \"help\"", cmdName)

@@ -11,7 +11,7 @@ import (
 const cliName = "ccub"
 
 var commands = map[string]cli.CommandFactory{
-	"log": log.NewFactory(),
+	"log": log.Factory,
 }
 
 func main() {

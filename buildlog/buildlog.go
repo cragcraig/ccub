@@ -135,5 +135,5 @@ func ParseAssemblyArg(arg string) (string, error) {
 	if !containsString(validAssemblies, arg) {
 		return "", fmt.Errorf("Assembly must be one of:\n  %s", strings.Join(validAssemblies, "\n  "))
 	}
-    return arg, nil
+	return arg, nil
 }
