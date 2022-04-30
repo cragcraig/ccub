@@ -1,4 +1,4 @@
-package cli
+package buildlog
 
 import (
 	"fmt"
@@ -38,7 +38,7 @@ var validDateLayouts = []dateForm{
 	dateForm{"1/_2", timeAddYear},
 }
 
-func parseKitchenTime(year int, month time.Month, day int, kitchen string) (time.Time, error) {
+func ParseKitchenTime(year int, month time.Month, day int, kitchen string) (time.Time, error) {
 	submatches := kitchenTimePattern.FindStringSubmatch(kitchen)
 	if submatches == nil {
 		return time.Time{}, fmt.Errorf("Invalid time: %s", kitchen)
@@ -55,7 +55,7 @@ func parseKitchenTime(year int, month time.Month, day int, kitchen string) (time
 	return time.Date(year, month, day, hours, minutes, 0, 0, time.UTC), nil
 }
 
-func parseDateArg(arg string) (time.Time, error) {
+func ParseDateArg(arg string) (time.Time, error) {
 	if arg == "today" {
 		return time.Now(), nil
 	} else if arg == "yesterday" {
@@ -73,7 +73,7 @@ func parseDateArg(arg string) (time.Time, error) {
 	return time.Time{}, fmt.Errorf("Bad date %s, valid forms are:\n  %s", arg, strings.Join(valid, "\n  "))
 }
 
-func parseWorkPeriodsArg(year int, month time.Month, day int, arg string) ([]*protos.TimePeriod, error) {
+func ParseWorkPeriodsArg(year int, month time.Month, day int, arg string) ([]*protos.TimePeriod, error) {
 	var periods []*protos.TimePeriod
 	durations := strings.Split(arg, ",")
 	for _, v := range durations {
@@ -81,11 +81,11 @@ func parseWorkPeriodsArg(year int, month time.Month, day int, arg string) ([]*pr
 		if len(s) != 2 {
 			return nil, fmt.Errorf("Time period must consist of both a start time and an end time")
 		}
-		start, err := parseKitchenTime(year, month, day, s[0])
+		start, err := ParseKitchenTime(year, month, day, s[0])
 		if err != nil {
 			return nil, fmt.Errorf("Bad start time: %s", s[0])
 		}
-		end, err := parseKitchenTime(year, month, day, s[1])
+		end, err := ParseKitchenTime(year, month, day, s[1])
 		if err != nil {
 			return nil, fmt.Errorf("Bad end time: %s", s[1])
 		}
@@ -100,10 +100,10 @@ func parseWorkPeriodsArg(year int, month time.Month, day int, arg string) ([]*pr
 	return periods, nil
 }
 
-func parseDateOfLog(log *protos.BuildLogEntry) (time.Time, error) {
+func ParseDateOfLog(log *protos.BuildLogEntry) (time.Time, error) {
 	return time.Parse(DateLayout, log.Date)
 }
 
-func formatDateForLog(date time.Time) string {
+func FormatDateForLog(date time.Time) string {
 	return date.Format(DateLayout)
 }

@@ -6,7 +6,6 @@ import (
 	"fmt"
 )
 
-const cliCmdName = "ccub"
 const helpCmdName = "help"
 
 type CommandMetadata struct {
@@ -23,56 +22,10 @@ type Command interface {
     Parse(args []string) error
     Execute() error
 }
-
-var commands = map[string]CommandFactory{
-	"log": &logCmdFactory{},
-/*
-	// Meta commands
-	"version": CommandEntry{
-		name: "version",
-		cmd: func(_ CommandEntry, _ []string) error {
-			printVersion()
-			return nil
-		},
-		desc:  "Report the version",
-		usage: "",
-	},
-	helpCmdName: CommandEntry{
-		name:  helpCmdName,
-		cmd:   nil, // special case to avoid circular dep
-		desc:  "Provide help documentation",
-		usage: "[COMMAND]",
-		eg:    []string{"", ""},
-	},
-    */
-	// Normal commands
-    /*
-	"render": CommandEntry{
-		name:  "render",
-		cmd:   RenderCmd,
-		desc:  "Render logs to Markdown using the provided template",
-		usage: "TEMPLATE_FILE",
-		eg: []string{
-			"template.md",
-		},
-	},
-    */
-}
-/*
-func (cmd CommandEntry) getUsageError() error {
-	msg := []string{fmt.Sprintf("Usage:  %s %s %s", cliCmdName, cmd.name, cmd.usage)}
-	prefix := " e.g.,"
-	for _, eg := range cmd.eg {
-		msg = append(msg, fmt.Sprintf("%s  %s %s %s", prefix, cliCmdName, cmd.name, eg))
-		prefix = "      "
-	}
-	return errors.New(strings.Join(msg, "\n"))
-}
-*/
-func Exec(cmdName string, argv []string) error {
+func Exec(commands map[string]CommandFactory, cliName string, cmdName string, argv []string) error {
 	if cmdName == helpCmdName || cmdName == "" {
 		// Help
-		return help(commands, argv)
+		return help(commands, cliName, argv)
 	} else if factory, exists := commands[cmdName]; exists {
 		// All other commands
         cmd := factory.Create(cmdName)
@@ -93,13 +46,13 @@ func printVersion() {
 	fmt.Println("Carbon Cub Build Log, version 0.19")
 }
 
-func help(commands map[string]CommandFactory, argv []string) error {
+func help(commands map[string]CommandFactory, cliName string, argv []string) error {
 	if len(argv) == 0 {
 		printVersion()
 		fmt.Println("")
-		fmt.Printf("Usage:  %s COMMAND [-flag1 value] [-flag2 value] ...\n", cliCmdName)
-		fmt.Printf(" e.g.,  %s log -help\n", cliCmdName)
-		fmt.Printf("        %s log -assembly \"left wing\" -date today -time 1pm-3:15pm\n", cliCmdName)
+		fmt.Printf("Usage:  %s COMMAND [-flag1 value] [-flag2 value] ...\n", cliName)
+		fmt.Printf(" e.g.,  %s log -help\n", cliName)
+		fmt.Printf("        %s log -assembly \"left wing\" -date today -time 1pm-3:15pm\n", cliName)
 		fmt.Println("")
 		fmt.Println("Commands:")
 		// Get length of the longest command

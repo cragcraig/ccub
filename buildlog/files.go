@@ -1,4 +1,4 @@
-package cli
+package buildlog
 
 import (
 	"errors"
@@ -9,7 +9,7 @@ import (
 	"text/template"
 )
 
-func readFile(f string) (string, error) {
+func ReadFile(f string) (string, error) {
 	fp, err := os.Open(f)
 	if err != nil {
 		return "", err
@@ -22,7 +22,7 @@ func readFile(f string) (string, error) {
 	return string(data), nil
 }
 
-func fileExists(f string) (bool, error) {
+func FileExists(f string) (bool, error) {
 	if _, err := os.Stat(f); err == nil {
 		return true, nil
 	} else if errors.Is(err, os.ErrNotExist) {
@@ -32,8 +32,8 @@ func fileExists(f string) (bool, error) {
 	}
 }
 
-func loadTemplateFromFile(f string) (*template.Template, error) {
-	text, err := readFile(f)
+func LoadTemplateFromFile(f string) (*template.Template, error) {
+	text, err := ReadFile(f)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +41,7 @@ func loadTemplateFromFile(f string) (*template.Template, error) {
 	return tmpl.Parse(text)
 }
 
-func ensureDirExists(dir string) error {
+func EnsureDirExists(dir string) error {
 	fp, err := os.Open(dir)
 	if os.IsNotExist(err) {
 		return os.Mkdir(dir, 0755)
@@ -59,7 +59,7 @@ func ensureDirExists(dir string) error {
 	return nil
 }
 
-func launchEditor(f string) error {
+func LaunchEditor(f string) error {
 	editor := os.Getenv("EDITOR")
 	if len(editor) == 0 {
 		return errors.New("Environment variable EDITOR is not set")
