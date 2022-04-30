@@ -2,24 +2,31 @@ package cli
 
 import (
 	"errors"
+	"flag"
 	"fmt"
-	"strings"
 )
 
 const cliCmdName = "ccub"
 const helpCmdName = "help"
 
-type CommandFunc func(CommandEntry, []string) error
-
-type CommandEntry struct {
-	name  string
-	cmd   CommandFunc
-	desc  string
-	usage string
-	eg    []string
+type CommandMetadata struct {
+    Name string
+    Description string
 }
 
-var commands = map[string]CommandEntry{
+type CommandFactory interface {
+    Metadata() CommandMetadata
+    Create(name string) Command
+}
+
+type Command interface {
+    Parse(args []string) error
+    Execute() error
+}
+
+var commands = map[string]CommandFactory{
+	"log": &logCmdFactory{},
+/*
 	// Meta commands
 	"version": CommandEntry{
 		name: "version",
@@ -37,17 +44,9 @@ var commands = map[string]CommandEntry{
 		usage: "[COMMAND]",
 		eg:    []string{"", ""},
 	},
+    */
 	// Normal commands
-	"log": CommandEntry{
-		name:  "log",
-		cmd:   LogCmd,
-		desc:  "Initialize a new build log entry",
-		usage: "ASSEMBLY today|yesterday|DATE START-END[,START-END...] [TAG] [TAG] ...",
-		eg: []string{
-			"\"left wing\" today 3pm-6:30pm \"center ribs\" \"solid rivets\"",
-			"\"fuselage\" 2022-Feb-08 11AM-4:15PM",
-		},
-	},
+    /*
 	"render": CommandEntry{
 		name:  "render",
 		cmd:   RenderCmd,
@@ -57,8 +56,9 @@ var commands = map[string]CommandEntry{
 			"template.md",
 		},
 	},
+    */
 }
-
+/*
 func (cmd CommandEntry) getUsageError() error {
 	msg := []string{fmt.Sprintf("Usage:  %s %s %s", cliCmdName, cmd.name, cmd.usage)}
 	prefix := " e.g.,"
@@ -68,14 +68,21 @@ func (cmd CommandEntry) getUsageError() error {
 	}
 	return errors.New(strings.Join(msg, "\n"))
 }
-
+*/
 func Exec(cmdName string, argv []string) error {
 	if cmdName == helpCmdName || cmdName == "" {
 		// Help
 		return help(commands, argv)
-	} else if c, exists := commands[cmdName]; exists {
+	} else if factory, exists := commands[cmdName]; exists {
 		// All other commands
-		return c.cmd(c, argv)
+        cmd := factory.Create(cmdName)
+        if err := cmd.Parse(argv); err != nil {
+            if errors.Is(err, flag.ErrHelp) {
+                return nil
+            }
+            return err
+        }
+        return cmd.Execute()
 	} else {
 		// Unrecognized
 		return fmt.Errorf("Unrecognized command \"%s\", try \"help\"", cmdName)
@@ -83,16 +90,16 @@ func Exec(cmdName string, argv []string) error {
 }
 
 func printVersion() {
-	fmt.Println("Carbon Cub Build Log, version 0.1")
+	fmt.Println("Carbon Cub Build Log, version 0.19")
 }
 
-func help(commands map[string]CommandEntry, argv []string) error {
+func help(commands map[string]CommandFactory, argv []string) error {
 	if len(argv) == 0 {
 		printVersion()
 		fmt.Println("")
-		fmt.Printf("Usage:  %s COMMAND [arg1] [arg2...] [-flag1] [-flag2...]\n", cliCmdName)
-		fmt.Printf(" e.g.,  %s help init\n", cliCmdName)
-		fmt.Printf("        %s log \"left wing\" today 1pm-3:15pm\n", cliCmdName)
+		fmt.Printf("Usage:  %s COMMAND [-flag1 value] [-flag2 value] ...\n", cliCmdName)
+		fmt.Printf(" e.g.,  %s log -help\n", cliCmdName)
+		fmt.Printf("        %s log -assembly \"left wing\" -date today -time 1pm-3:15pm\n", cliCmdName)
 		fmt.Println("")
 		fmt.Println("Commands:")
 		// Get length of the longest command
@@ -103,16 +110,14 @@ func help(commands map[string]CommandEntry, argv []string) error {
 			}
 		}
 		// Print all commands with descriptions
-		for _, cmd := range commands {
-			fmt.Printf("  %-*s  %s\n", max, cmd.name, cmd.desc)
+		for name, factory := range commands {
+			fmt.Printf("  %-*s  %s\n", max, name, factory.Metadata().Description)
 		}
 		return nil
 	} else {
 		cmdName := argv[0]
-		if cmd, exists := commands[cmdName]; exists {
-			fmt.Println(strings.ToUpper(cmd.name), "-", cmd.desc)
-			fmt.Println(cmd.getUsageError())
-			return nil
+		if _, exists := commands[cmdName]; exists {
+			return fmt.Errorf("Try '%s -help'", cmdName)
 		}
 		return errors.New(fmt.Sprintf("Unable: '%s' is not a supported command", cmdName))
 	}

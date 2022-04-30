@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+    "flag"
 	"github.com/cragcraig/ccub/protos"
 	"github.com/golang/protobuf/proto"
 	"io"
@@ -9,6 +10,7 @@ import (
 	"sort"
 	"strings"
 	"time"
+    "errors"
 )
 
 const (
@@ -132,58 +134,116 @@ func updateLogMetadataFile(f string, entry *protos.BuildLogEntry, overwrite bool
 	return writeLogs(f, logs)
 }
 
-func LogCmd(cmd CommandEntry, argv []string) error {
-	if len(argv) < 3 {
-		return cmd.getUsageError()
+func parseAssemblyArg(arg string) (string, error) {
+	if !containsString(validAssemblies, arg) {
+		return "", fmt.Errorf("Assembly must be one of:\n  %s", strings.Join(validAssemblies, "\n  "))
 	}
+    return arg, nil
+}
 
-	// Assembly
-	assembly := argv[0]
-	if !containsString(validAssemblies, assembly) {
-		return fmt.Errorf("Assembly must be one of:\n  %s", strings.Join(validAssemblies, "\n  "))
-	}
+type logCmdFactory struct {
+}
 
-	// Date
-	date, err := parseDateArg(argv[1])
-	if err != nil {
-		return err
-	}
+func (f *logCmdFactory) Metadata() CommandMetadata {
+    return CommandMetadata{
+        Name: "log",
+        Description: "Log a build entry",
+    }
+}
 
-	// Time periods
-	times, err := parseDurationsArg(date.Year(), date.Month(), date.Day(), argv[2])
-	if err != nil {
-		return err
-	}
+func (f *logCmdFactory) Create(name string) Command {
+    flags := flag.NewFlagSet(name, flag.ContinueOnError)
+    rawFlags := logCmdRawFlags{
+        flags: flags,
+        assembly: flags.String("assembly", "", "Top-level assembly. Required."),
+        date: flags.String("date", "", "Date of work. Required."),
+        workPeriods: flags.String("time", "", "Time period(s) of work. Required."),
+        tags: flags.String("tags", "", "Comma-separated list of arbitrary tags"),
+        overwrite: flags.Bool("overwrite", false, "Replace existing log entry on specified date"),
+    }
+    return &logCmd{
+        rawFlags: &rawFlags,
+    }
+}
 
-	// Tags
-	var tags []string
-	if len(argv) > 3 {
-		tags = argv[3:]
-	}
+type logCmdRawFlags struct {
+    flags *flag.FlagSet
+    assembly *string
+    date *string
+    workPeriods *string
+    tags *string
+    overwrite *bool
+}
 
+type logCmd struct {
+    rawFlags *logCmdRawFlags
+    assembly string
+    date time.Time
+    workPeriods []*protos.TimePeriod
+    tags []string
+}
+
+func (c *logCmd) Parse(args []string) error {
+    if err := c.rawFlags.flags.Parse(args); err != nil {
+        return err
+    }
+    raw := c.rawFlags
+    // Assembly
+    if !containsString(validAssemblies, *raw.assembly) {
+        return fmt.Errorf(
+            "assembly must be one of:\n  %s\n", strings.Join(validAssemblies, "\n  "))
+    }
+    c.assembly = *raw.assembly
+    // Date
+    // TODO: Required, print usage if missing
+    if date, err := parseDateArg(*raw.date); err != nil {
+        return err
+    } else {
+        c.date = date
+    }
+    // Work periods
+    // TODO: Required, print usage if missing
+    if w, err := parseWorkPeriodsArg(c.date.Year(), c.date.Month(), c.date.Day(), *raw.workPeriods); err != nil {
+        return err
+    } else {
+        c.workPeriods = w
+    }
+    // Tags
+    if len(*raw.tags) > 0 {
+        c.tags = strings.Split(*raw.tags, ",")
+    }
+    for _, t := range c.tags {
+        if len(t) == 0 {
+            return errors.New("Tags must not be an empty string")
+        }
+    }
+    return nil
+}
+
+func (c *logCmd) Execute() error {
 	entry := protos.BuildLogEntry{
-		Assembly:    assembly,
-		Date:        formatDateForLog(date),
-		WorkPeriod:  times,
-		DetailsFile: logDetailsFile([]string{}, date),
-		Tags:        tags,
+		Assembly:    c.assembly,
+		Date:        formatDateForLog(c.date),
+		WorkPeriod:  c.workPeriods,
+		DetailsFile: logDetailsFile([]string{}, c.date),
+		Tags:        c.tags,
 	}
 
-	if err := updateLogMetadataFile(logsPath, &entry, false); err != nil {
+	if err := updateLogMetadataFile(logsPath, &entry, *c.rawFlags.overwrite); err != nil {
 		return err
 	}
 	fmt.Printf("Logged:   %s\n", logsPath)
-	if f, err := createLogDetailsFile(assembly, date, false); err != nil {
-		return err
+	if f, err := createLogDetailsFile(c.assembly, c.date, false); err != nil {
+        return err
 	} else {
-		fmt.Printf("Details:  %s\n", f)
-		return launchEditor(f)
-	}
+        fmt.Printf("Details:  %s\n", f)
+        return launchEditor(f)
+    }
 }
 
-func RenderCmd(cmd CommandEntry, argv []string) error {
+func RenderCmd(argv []string) error {
 	if len(argv) != 1 {
-		return cmd.getUsageError()
+		return errors.New("invalid args")
 	}
 	tmpl, err := loadTemplateFromFile(argv[0])
 	if err != nil {
@@ -218,13 +278,3 @@ func RenderCmd(cmd CommandEntry, argv []string) error {
 
 	return nil
 }
-
-/*
-func ExampleCmd(cmd CommandEntry, argv []string) error {
-	if len(argv) != 1 {
-		return cmd.getUsageError()
-	}
-	fmt.Println("TODO: Implement")
-	return nil
-}
-*/

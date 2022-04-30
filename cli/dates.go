@@ -73,7 +73,7 @@ func parseDateArg(arg string) (time.Time, error) {
 	return time.Time{}, fmt.Errorf("Bad date %s, valid forms are:\n  %s", arg, strings.Join(valid, "\n  "))
 }
 
-func parseDurationsArg(year int, month time.Month, day int, arg string) ([]*protos.TimePeriod, error) {
+func parseWorkPeriodsArg(year int, month time.Month, day int, arg string) ([]*protos.TimePeriod, error) {
 	var periods []*protos.TimePeriod
 	durations := strings.Split(arg, ",")
 	for _, v := range durations {
