@@ -31,7 +31,7 @@ func (c *renderCmd) Parse(args []string) error {
 	}
 	// Template
 	if len(*tmplFile) == 0 {
-		return errors.New("'template' is required")
+		return errors.New("'tmpl' is required")
 	}
 	c.tmplFile = *tmplFile
 	return nil

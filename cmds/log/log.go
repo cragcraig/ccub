@@ -4,11 +4,13 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"strings"
+	"time"
+	"unicode"
+
 	"github.com/cragcraig/ccub/buildlog"
 	"github.com/cragcraig/ccub/cli"
 	"github.com/cragcraig/ccub/protos"
-	"strings"
-	"time"
 )
 
 const (
@@ -26,6 +28,7 @@ type logCmd struct {
 	assembly    string
 	date        time.Time
 	workPeriods []*protos.TimePeriod
+	title       string
 	tags        []string
 	overwrite   bool
 }
@@ -36,6 +39,7 @@ func (c *logCmd) Parse(args []string) error {
 	assembly := flags.String("assembly", "", "Top-level assembly. Required.")
 	date := flags.String("date", "", "Date of work. Required.")
 	workPeriods := flags.String("time", "", "Time period(s) of work. Required.")
+	title := flags.String("title", "", "Title for the log entry")
 	tags := flags.String("tags", "", "Comma-separated list of arbitrary tags")
 	overwrite := flags.Bool("overwrite", false, "Replace existing log entry on specified date")
 	// Parse
@@ -70,6 +74,15 @@ func (c *logCmd) Parse(args []string) error {
 	} else {
 		c.workPeriods = w
 	}
+	if len(*title) == 0 {
+		return errors.New("'title' is required")
+	}
+	for _, r := range *title {
+		if !unicode.IsPrint(r) {
+			return errors.New("Title must be a single line of text (no newlines)")
+		}
+	}
+	c.title = *title
 	// Tags
 	if len(*tags) > 0 {
 		c.tags = strings.Split(*tags, ",")
@@ -89,6 +102,7 @@ func (c *logCmd) Execute() error {
 		Assembly:    c.assembly,
 		Date:        buildlog.FormatDateForLog(c.date),
 		WorkPeriod:  c.workPeriods,
+		Title:       c.title,
 		DetailsFile: buildlog.LogDetailsFile([]string{}, c.date),
 		Tags:        c.tags,
 	}

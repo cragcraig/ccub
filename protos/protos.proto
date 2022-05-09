@@ -18,10 +18,13 @@ message BuildLogEntry {
   // e.g., 2006-Jan-02
   string date = 3;
 
-  repeated TimePeriod work_period = 4;  
+  // Single-line of title text
+  string title = 4;
 
-  string details_file = 5;
-  repeated string tags = 6;
+  repeated TimePeriod work_period = 5;  
+
+  string details_file = 6;
+  repeated string tags = 7;
 }
 
 message BuildLogs {
