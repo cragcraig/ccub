@@ -1,0 +1,10 @@
+log_entry: <
+  assembly: "left wing"
+  date: "2022-May-08"
+  title: "Drill fabric holes in #5 center rib, install pitot bracket, drill tank extension skin"
+  work_period: <
+    start_time: "10:30AM"
+    duration_min: 510
+  >
+  details_file: "2022-May/2022-May-08.md"
+>
