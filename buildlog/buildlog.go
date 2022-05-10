@@ -2,12 +2,13 @@ package buildlog
 
 import (
 	"fmt"
-	"github.com/cragcraig/ccub/protos"
-	"github.com/golang/protobuf/proto"
 	"os"
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/cragcraig/ccub/protos"
+	"github.com/golang/protobuf/proto"
 )
 
 const (

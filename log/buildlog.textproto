@@ -4,7 +4,19 @@ log_entry: <
   title: "Drill fabric holes in #5 center rib, install pitot bracket, drill tank extension skin"
   work_period: <
     start_time: "10:30AM"
+    end_time: "7:00PM"
     duration_min: 510
   >
   details_file: "2022-May/2022-May-08.md"
+>
+log_entry: <
+  assembly: "left wing"
+  date: "2022-May-10"
+  title: "Deburr and rivet tank extension skin"
+  work_period: <
+    start_time: "7:45AM"
+    end_time: "9:15AM"
+    duration_min: 90
+  >
+  details_file: "2022-May/2022-May-10.md"
 >

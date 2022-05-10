@@ -3,11 +3,12 @@ package render
 import (
 	"errors"
 	"flag"
+	"os"
+	"strings"
+
 	"github.com/cragcraig/ccub/buildlog"
 	"github.com/cragcraig/ccub/cli"
-	"io"
-	"os"
-	"time"
+	"github.com/cragcraig/ccub/protos"
 )
 
 var CmdFactory = cli.NewStaticCommandFactory(
@@ -19,6 +20,11 @@ var CmdFactory = cli.NewStaticCommandFactory(
 type renderCmd struct {
 	name     string
 	tmplFile string
+}
+
+type renderData struct {
+	*protos.BuildLogEntry
+	Details string
 }
 
 func (c *renderCmd) Parse(args []string) error {
@@ -44,19 +50,10 @@ func (c *renderCmd) Execute() error {
 	}
 	logs, err := buildlog.ReadLogs(buildlog.LogsPath)
 
-	// Render each log
+	// Render each log entry
 	for _, log := range logs.LogEntry {
-		// Render log entry using template
-		err := tmpl.Execute(os.Stdout, log)
-		if err != nil {
-			return err
-		}
-		date, err := time.Parse(buildlog.DateLayout, log.Date)
-		if err != nil {
-			return err
-		}
-		// Append associated details Markdown file
-		details, err := buildlog.ReadFile(buildlog.LogDetailsFile([]string{buildlog.LogsDir}, date))
+		// Read in details file
+		details, err := buildlog.ReadFile(strings.Join([]string{buildlog.LogsDir, log.DetailsFile}, "/"))
 		if err != nil {
 			if os.IsNotExist(err) {
 				details = "No details"
@@ -64,7 +61,8 @@ func (c *renderCmd) Execute() error {
 				return err
 			}
 		}
-		if _, err := io.WriteString(os.Stdout, details+"\n"); err != nil {
+		// Render log entry using template
+		if err := tmpl.Execute(os.Stdout, renderData{BuildLogEntry: log, Details: strings.TrimSpace(details)}); err != nil {
 			return err
 		}
 	}

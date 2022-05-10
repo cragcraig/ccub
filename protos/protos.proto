@@ -3,9 +3,13 @@ package carboncub;
 option go_package = "github.com/cragcraig/ccub/protos";
 
 message TimePeriod {
-  // e.g., 5:00PM
+  // e.g., 1:15PM
   string start_time = 1;
-  uint32 duration_min = 2;
+
+  // e.g., 5:00PM
+  string end_time = 2;
+
+  uint32 duration_min = 3;
 }
 
 message BuildLogEntry {

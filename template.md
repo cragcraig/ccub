@@ -1,4 +1,6 @@
-# {{.Date}}  {{.Assembly}}  -  {{.Title}}  
+# {{.Date}}  {{.Title}}  -  {{.Assembly}}
 {{range .WorkPeriod}}
-  * {{.StartTime}} for {{.DurationMin}} minutes
+  * {{.StartTime}}-{{.EndTime}} ({{.DurationMin}} minutes)
 {{end}}
+{{.Details}}
+

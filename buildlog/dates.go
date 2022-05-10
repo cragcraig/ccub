@@ -2,12 +2,13 @@ package buildlog
 
 import (
 	"fmt"
-	"github.com/cragcraig/ccub/protos"
 	"math"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/cragcraig/ccub/protos"
 )
 
 const (
@@ -31,11 +32,11 @@ func timeAddYear(t time.Time) time.Time {
 }
 
 var validDateLayouts = []dateForm{
-	dateForm{DateLayout, timeNoAdjust},
-	dateForm{"2006-_1-_2", timeNoAdjust},
-	dateForm{"Jan-_2", timeAddYear},
-	dateForm{"1-_2", timeAddYear},
-	dateForm{"1/_2", timeAddYear},
+	{DateLayout, timeNoAdjust},
+	{"2006-_1-_2", timeNoAdjust},
+	{"Jan-_2", timeAddYear},
+	{"1-_2", timeAddYear},
+	{"1/_2", timeAddYear},
 }
 
 func ParseKitchenTime(year int, month time.Month, day int, kitchen string) (time.Time, error) {
@@ -94,6 +95,7 @@ func ParseWorkPeriodsArg(year int, month time.Month, day int, arg string) ([]*pr
 		}
 		periods = append(periods, &protos.TimePeriod{
 			StartTime:   start.Format(time.Kitchen),
+			EndTime:     end.Format(time.Kitchen),
 			DurationMin: uint32(math.Ceil(end.Sub(start).Minutes())),
 		})
 	}
