@@ -20,3 +20,19 @@ log_entry: <
   >
   details_file: "2022-May/2022-May-10.md"
 >
+log_entry: <
+  assembly: "left wing"
+  date: "2022-May-12"
+  title: "Square and tape leading edge ribs, install side rivets fastening rear and center ribs"
+  work_period: <
+    start_time: "6:00AM"
+    end_time: "8:30AM"
+    duration_min: 150
+  >
+  work_period: <
+    start_time: "6:15PM"
+    end_time: "8:30PM"
+    duration_min: 135
+  >
+  details_file: "2022-May/2022-May-12.md"
+>
