@@ -36,3 +36,28 @@ log_entry: <
   >
   details_file: "2022-May/2022-May-12.md"
 >
+log_entry: <
+  assembly: "right wing"
+  date: "2022-May-13"
+  title: "Moved left wing to rack and prepped spars"
+  work_period: <
+    start_time: "7:30PM"
+    end_time: "9:00PM"
+    duration_min: 90
+  >
+  details_file: "2022-May/2022-May-13.md"
+  tags: "misc"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-May-14"
+  title: "Installed front spar wing root and lift strut fittings"
+  work_period: <
+    start_time: "8:30AM"
+    end_time: "2:00PM"
+    duration_min: 330
+  >
+  details_file: "2022-May/2022-May-14.md"
+  tags: "fittings"
+  tags: "reaming"
+>
