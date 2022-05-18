@@ -61,3 +61,28 @@ log_entry: <
   tags: "fittings"
   tags: "reaming"
 >
+log_entry: <
+  assembly: "right wing"
+  date: "2022-May-15"
+  title: "Clekoed drag tub & wire fittings and torqued"
+  work_period: <
+    start_time: "2:30PM"
+    end_time: "6:30PM"
+    duration_min: 240
+  >
+  details_file: "2022-May/2022-May-15.md"
+  tags: "fittings"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-May-16"
+  title: "Reamed and installed aft wing root and lift strut fittings"
+  work_period: <
+    start_time: "6:30PM"
+    end_time: "9:00PM"
+    duration_min: 150
+  >
+  details_file: "2022-May/2022-May-16.md"
+  tags: "fittings"
+  tags: "reaming"
+>
