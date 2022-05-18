@@ -9,7 +9,6 @@ import (
 const helpCmdName = "help"
 
 type Command interface {
-	Parse(args []string) error
 	Execute() error
 }
 
@@ -19,10 +18,10 @@ type CommandMetadata struct {
 
 type CommandFactory interface {
 	Metadata() CommandMetadata
-	Create(name string) Command
+	Create(name string, args []string) (Command, error)
 }
 
-func NewStaticCommandFactory(metadata CommandMetadata, factoryFn func(name string) Command) CommandFactory {
+func NewCommandFactory(metadata CommandMetadata, factoryFn func(name string, args []string) (Command, error)) CommandFactory {
 	return &staticCommandFactory{
 		metadata:  metadata,
 		factoryFn: factoryFn,
@@ -31,15 +30,15 @@ func NewStaticCommandFactory(metadata CommandMetadata, factoryFn func(name strin
 
 type staticCommandFactory struct {
 	metadata  CommandMetadata
-	factoryFn func(name string) Command
+	factoryFn func(name string, args []string) (Command, error)
 }
 
 func (m *staticCommandFactory) Metadata() CommandMetadata {
 	return m.metadata
 }
 
-func (m *staticCommandFactory) Create(name string) Command {
-	return m.factoryFn(name)
+func (m *staticCommandFactory) Create(name string, args []string) (Command, error) {
+	return m.factoryFn(name, args)
 }
 
 func Exec(commands map[string]CommandFactory, cliName string, cmdName string, argv []string) error {
@@ -48,14 +47,14 @@ func Exec(commands map[string]CommandFactory, cliName string, cmdName string, ar
 		return help(commands, cliName, argv)
 	} else if factory, exists := commands[cmdName]; exists {
 		// All other commands
-		cmd := factory.Create(cmdName)
-		if err := cmd.Parse(argv); err != nil {
+		if cmd, err := factory.Create(cmdName, argv); err != nil {
 			if errors.Is(err, flag.ErrHelp) {
 				return nil
 			}
 			return err
+		} else {
+			return cmd.Execute()
 		}
-		return cmd.Execute()
 	} else {
 		// Unrecognized
 		return fmt.Errorf("Unrecognized command \"%s\", try \"help\"", cmdName)

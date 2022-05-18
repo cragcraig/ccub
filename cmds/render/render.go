@@ -11,36 +11,31 @@ import (
 	"github.com/cragcraig/ccub/protos"
 )
 
-var CmdFactory = cli.NewStaticCommandFactory(
+var CmdFactory = cli.NewCommandFactory(
 	cli.CommandMetadata{
 		Description: "Render build logs using a user-specified template",
 	},
-	func(name string) cli.Command { return &renderCmd{name: name} })
+	create)
 
 type renderCmd struct {
-	name     string
 	tmplFile string
 }
 
-type renderData struct {
-	*protos.BuildLogEntry
-	Details string
-}
-
-func (c *renderCmd) Parse(args []string) error {
-	flags := flag.NewFlagSet(c.name, flag.ContinueOnError)
+func create(name string, args []string) (cli.Command, error) {
+	c := &renderCmd{}
+	flags := flag.NewFlagSet(name, flag.ContinueOnError)
 	// Raw flags
 	tmplFile := flags.String("tmpl", "", "Template text file. Required.")
 	// Parse
 	if err := flags.Parse(args); err != nil {
-		return err
+		return nil, err
 	}
 	// Template
 	if len(*tmplFile) == 0 {
-		return errors.New("'tmpl' is required")
+		return nil, errors.New("'tmpl' is required")
 	}
 	c.tmplFile = *tmplFile
-	return nil
+	return c, nil
 }
 
 func (c *renderCmd) Execute() error {
@@ -62,7 +57,14 @@ func (c *renderCmd) Execute() error {
 			}
 		}
 		// Render log entry using template
-		if err := tmpl.Execute(os.Stdout, renderData{BuildLogEntry: log, Details: strings.TrimSpace(details)}); err != nil {
+		data := struct {
+			*protos.BuildLogEntry
+			Details string
+		}{
+			BuildLogEntry: log,
+			Details:       strings.TrimSpace(details),
+		}
+		if err := tmpl.Execute(os.Stdout, data); err != nil {
 			return err
 		}
 	}
