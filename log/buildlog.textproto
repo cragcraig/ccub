@@ -86,3 +86,30 @@ log_entry: <
   tags: "fittings"
   tags: "reaming"
 >
+log_entry: <
+  assembly: "right wing"
+  date: "2022-May-18"
+  title: "Torqued aft spar fittings and staged drag tubes"
+  work_period: <
+    start_time: "6:30PM"
+    end_time: "7:30PM"
+    duration_min: 60
+  >
+  details_file: "2022-May/2022-May-18.md"
+  tags: "fittings"
+  tags: "torqued"
+  tags: "drag tubes"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-May-20"
+  title: "Installed jury strut fittings"
+  work_period: <
+    start_time: "6:30PM"
+    end_time: "8:00PM"
+    duration_min: 90
+  >
+  details_file: "2022-May/2022-May-20.md"
+  tags: "struts"
+  tags: "fittings"
+>
