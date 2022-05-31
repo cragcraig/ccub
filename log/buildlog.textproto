@@ -113,3 +113,47 @@ log_entry: <
   tags: "struts"
   tags: "fittings"
 >
+log_entry: <
+  assembly: "right wing"
+  date: "2022-May-21"
+  title: "Installed drag tube and wire fittings"
+  work_period: <
+    start_time: "11:00AM"
+    end_time: "3:45PM"
+    duration_min: 285
+  >
+  work_period: <
+    start_time: "4:30PM"
+    end_time: "5:30PM"
+    duration_min: 60
+  >
+  details_file: "2022-May/2022-May-21.md"
+  tags: "fittings"
+  tags: "riveting"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-May-28"
+  title: "Installed drag tubes at lift strut and aileron/flap hangers"
+  work_period: <
+    start_time: "8:30AM"
+    end_time: "1:00PM"
+    duration_min: 270
+  >
+  details_file: "2022-May/2022-May-28.md"
+  tags: "hangers"
+  tags: "riveting"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-May-29"
+  title: "Riveted center ribs to spars"
+  work_period: <
+    start_time: "8:30AM"
+    end_time: "2:30PM"
+    duration_min: 360
+  >
+  details_file: "2022-May/2022-May-29.md"
+  tags: "ribs"
+  tags: "riveting"
+>
