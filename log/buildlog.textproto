@@ -157,3 +157,29 @@ log_entry: <
   tags: "ribs"
   tags: "riveting"
 >
+log_entry: <
+  assembly: "right wing"
+  date: "2022-May-31"
+  title: "Trimmed and adhesive rib #1"
+  work_period: <
+    start_time: "5:00PM"
+    end_time: "6:30PM"
+    duration_min: 90
+  >
+  details_file: "2022-May/2022-May-31.md"
+  tags: "ribs"
+  tags: "meth"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Jun-01"
+  title: "Installed center rib #1"
+  work_period: <
+    start_time: "5:30PM"
+    end_time: "8:30PM"
+    duration_min: 180
+  >
+  details_file: "2022-Jun/2022-Jun-01.md"
+  tags: "ribs"
+  tags: "riveting"
+>
