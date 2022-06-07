@@ -50,9 +50,15 @@ func ParseKitchenTime(year int, month time.Month, day int, kitchen string) (time
 		minutes, _ = strconv.Atoi(submatches[2][1:])
 	}
 	ampm := strings.ToUpper(submatches[3])
+	if hours == 12 {
+		hours = 0
+	}
 	if ampm == "PM" {
 		hours += 12
 	}
+    if hours > 12 || minutes > 59 {
+		return time.Time{}, fmt.Errorf("Invalid time: %s", kitchen)
+    }
 	return time.Date(year, month, day, hours, minutes, 0, 0, time.UTC), nil
 }
 
