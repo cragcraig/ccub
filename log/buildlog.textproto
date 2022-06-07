@@ -64,7 +64,7 @@ log_entry: <
 log_entry: <
   assembly: "right wing"
   date: "2022-May-15"
-  title: "Clekoed drag tub & wire fittings and torqued"
+  title: "Clekoed drag tube & wire fittings and torqued"
   work_period: <
     start_time: "2:30PM"
     end_time: "6:30PM"
@@ -182,4 +182,33 @@ log_entry: <
   details_file: "2022-Jun/2022-Jun-01.md"
   tags: "ribs"
   tags: "riveting"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Jun-04"
+  title: "Began installing fuel tank straps"
+  work_period: <
+    start_time: "6:00PM"
+    end_time: "8:30PM"
+    duration_min: 150
+  >
+  details_file: "2022-Jun/2022-Jun-04.md"
+  tags: "fuel tanks"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Jun-05"
+  title: "Torqued and formed tank straps"
+  work_period: <
+    start_time: "11:45AM"
+    end_time: "1:30PM"
+    duration_min: 105
+  >
+  work_period: <
+    start_time: "5:00PM"
+    end_time: "6:00PM"
+    duration_min: 60
+  >
+  details_file: "2022-Jun/2022-Jun-05.md"
+  tags: "fuel tanks"
 >
