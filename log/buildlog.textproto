@@ -212,3 +212,21 @@ log_entry: <
   details_file: "2022-Jun/2022-Jun-05.md"
   tags: "fuel tanks"
 >
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Jun-11"
+  title: "Installed drag wires and fuel tank strap cushioning"
+  work_period: <
+    start_time: "9:15AM"
+    end_time: "11:00AM"
+    duration_min: 105
+  >
+  work_period: <
+    start_time: "12:30PM"
+    end_time: "4:30PM"
+    duration_min: 240
+  >
+  details_file: "2022-Jun/2022-Jun-11.md"
+  tags: "fuel tanks"
+  tags: "drag wires"
+>
