@@ -230,3 +230,15 @@ log_entry: <
   tags: "fuel tanks"
   tags: "drag wires"
 >
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Jun-14"
+  title: "Trammelled 1st and 2nd bays"
+  work_period: <
+    start_time: "7:00PM"
+    end_time: "9:30PM"
+    duration_min: 150
+  >
+  details_file: "2022-Jun/2022-Jun-14.md"
+  tags: "drag wires"
+>
