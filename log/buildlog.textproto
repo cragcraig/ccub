@@ -254,3 +254,15 @@ log_entry: <
   details_file: "2022-Jun/2022-Jun-22.md"
   tags: "drag wires"
 >
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Jun-25"
+  title: "Installed diagonal cross-tube"
+  work_period: <
+    start_time: "7:00AM"
+    end_time: "8:30AM"
+    duration_min: 90
+  >
+  details_file: "2022-Jun/2022-Jun-25.md"
+  tags: "drag tube"
+>
