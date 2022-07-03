@@ -266,3 +266,25 @@ log_entry: <
   details_file: "2022-Jun/2022-Jun-25.md"
   tags: "drag tube"
 >
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Jun-30"
+  title: "Front spar aileron pulley bracket"
+  work_period: <
+    start_time: "6:45PM"
+    end_time: "9:30PM"
+    duration_min: 165
+  >
+  details_file: "2022-Jun/2022-Jun-30.md"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Jul-02"
+  title: "Finish front spar pulley bracket and start rear spar reinforcement cap"
+  work_period: <
+    start_time: "10:30AM"
+    end_time: "7:00PM"
+    duration_min: 510
+  >
+  details_file: "2022-Jul/2022-Jul-02.md"
+>
