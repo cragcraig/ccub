@@ -288,3 +288,51 @@ log_entry: <
   >
   details_file: "2022-Jul/2022-Jul-02.md"
 >
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Jul-04"
+  title: "Installed #5 rib clips"
+  work_period: <
+    start_time: "12:00PM"
+    end_time: "2:30PM"
+    duration_min: 150
+  >
+  work_period: <
+    start_time: "4:30PM"
+    end_time: "8:00PM"
+    duration_min: 210
+  >
+  details_file: "2022-Jul/2022-Jul-04.md"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Jul-06"
+  title: "Finished outer rib clips, nose rib prep, finished rear spar reinforcement"
+  work_period: <
+    start_time: "7:30AM"
+    end_time: "9:30AM"
+    duration_min: 120
+  >
+  work_period: <
+    start_time: "1:00PM"
+    end_time: "4:30PM"
+    duration_min: 210
+  >
+  work_period: <
+    start_time: "6:30PM"
+    end_time: "10:15PM"
+    duration_min: 225
+  >
+  details_file: "2022-Jul/2022-Jul-06.md"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Jul-07"
+  title: "Trimmed and clekoed tail ribs and shaped pulley bracked"
+  work_period: <
+    start_time: "2:00PM"
+    end_time: "4:30PM"
+    duration_min: 150
+  >
+  details_file: "2022-Jul/2022-Jul-07.md"
+>
