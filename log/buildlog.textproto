@@ -336,3 +336,14 @@ log_entry: <
   >
   details_file: "2022-Jul/2022-Jul-07.md"
 >
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Aug-01"
+  title: "Squeezed rivets connecting trailing edge ribs to center ribs"
+  work_period: <
+    start_time: "6:30PM"
+    end_time: "9:00PM"
+    duration_min: 150
+  >
+  details_file: "2022-Aug/2022-Aug-01.md"
+>
