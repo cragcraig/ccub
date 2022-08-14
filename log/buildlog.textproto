@@ -347,3 +347,14 @@ log_entry: <
   >
   details_file: "2022-Aug/2022-Aug-01.md"
 >
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Aug-13"
+  title: "Installed #5 capstrip"
+  work_period: <
+    start_time: "3:00PM"
+    end_time: "7:30PM"
+    duration_min: 270
+  >
+  details_file: "2022-Aug/2022-Aug-13.md"
+>
