@@ -349,6 +349,28 @@ log_entry: <
 >
 log_entry: <
   assembly: "right wing"
+  date: "2022-Aug-06"
+  title: "Attached leading edge ribs and match drilled to center ribs"
+  work_period: <
+    start_time: "4:00PM"
+    end_time: "8:30PM"
+    duration_min: 270
+  >
+  details_file: "2022-Aug/2022-Aug-06.md"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Aug-07"
+  title: "Squeezed rivets connecting leading edge ribs to center ribs"
+  work_period: <
+    start_time: "7:00PM"
+    end_time: "8:15PM"
+    duration_min: 75
+  >
+  details_file: "2022-Aug/2022-Aug-07.md"
+>
+log_entry: <
+  assembly: "right wing"
   date: "2022-Aug-13"
   title: "Installed #5 capstrip"
   work_period: <
@@ -357,4 +379,26 @@ log_entry: <
     duration_min: 270
   >
   details_file: "2022-Aug/2022-Aug-13.md"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Aug-14"
+  title: "Installed #1 and #3 cap strips and nut plates"
+  work_period: <
+    start_time: "10:15AM"
+    end_time: "7:45PM"
+    duration_min: 570
+  >
+  details_file: "2022-Aug/2022-Aug-14.md"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Aug-15"
+  title: "Installed #1 bottom capstrip"
+  work_period: <
+    start_time: "8:00AM"
+    end_time: "9:45AM"
+    duration_min: 105
+  >
+  details_file: "2022-Aug/2022-Aug-15.md"
 >
