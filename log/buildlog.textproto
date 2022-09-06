@@ -402,3 +402,41 @@ log_entry: <
   >
   details_file: "2022-Aug/2022-Aug-15.md"
 >
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Sep-03"
+  title: "Prep #2 false rib and prep #3 rib bracing"
+  work_period: <
+    start_time: "11:00AM"
+    end_time: "7:15PM"
+    duration_min: 495
+  >
+  details_file: "2022-Sep/2022-Sep-03.md"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Sep-04"
+  title: "Drilled fabric rivet holes for rib #5 and fastened #3 rib bracing to rib"
+  work_period: <
+    start_time: "11:00AM"
+    end_time: "1:00PM"
+    duration_min: 120
+  >
+  details_file: "2022-Sep/2022-Sep-04.md"
+>
+log_entry: <
+  assembly: "right wing"
+  date: "2022-Sep-05"
+  title: "Finished rear pulley bracked and installed #2 false rib"
+  work_period: <
+    start_time: "7:30AM"
+    end_time: "8:15AM"
+    duration_min: 45
+  >
+  work_period: <
+    start_time: "3:00PM"
+    end_time: "5:30PM"
+    duration_min: 150
+  >
+  details_file: "2022-Sep/2022-Sep-05.md"
+>
