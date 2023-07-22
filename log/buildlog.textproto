@@ -440,3 +440,14 @@ log_entry: <
   >
   details_file: "2022-Sep/2022-Sep-05.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Jul-22"
+  title: "Assembled fuel selector assembly"
+  work_period: <
+    start_time: "2:00PM"
+    end_time: "4:30PM"
+    duration_min: 150
+  >
+  details_file: "2023-Jul/2023-Jul-22.md"
+>
