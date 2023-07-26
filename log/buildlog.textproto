@@ -451,3 +451,14 @@ log_entry: <
   >
   details_file: "2023-Jul/2023-Jul-22.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Jul-25"
+  title: "Elevator cable pulley"
+  work_period: <
+    start_time: "6:40PM"
+    end_time: "8:00PM"
+    duration_min: 80
+  >
+  details_file: "2023-Jul/2023-Jul-25.md"
+>
