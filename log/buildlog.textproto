@@ -462,3 +462,24 @@ log_entry: <
   >
   details_file: "2023-Jul/2023-Jul-25.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Jul-30"
+  title: "Bottom stringer"
+  work_period: <
+    start_time: "10:00AM"
+    end_time: "11:00AM"
+    duration_min: 60
+  >
+  work_period: <
+    start_time: "1:00PM"
+    end_time: "5:00PM"
+    duration_min: 240
+  >
+  work_period: <
+    start_time: "6:30PM"
+    end_time: "7:30PM"
+    duration_min: 60
+  >
+  details_file: "2023-Jul/2023-Jul-30.md"
+>
