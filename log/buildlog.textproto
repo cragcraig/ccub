@@ -483,3 +483,14 @@ log_entry: <
   >
   details_file: "2023-Jul/2023-Jul-30.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Aug-02"
+  title: "Fuel low-point drain"
+  work_period: <
+    start_time: "7:30PM"
+    end_time: "8:40PM"
+    duration_min: 70
+  >
+  details_file: "2023-Aug/2023-Aug-02.md"
+>
