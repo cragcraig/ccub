@@ -494,3 +494,14 @@ log_entry: <
   >
   details_file: "2023-Aug/2023-Aug-02.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Aug-06"
+  title: "Test-fit stringers"
+  work_period: <
+    start_time: "3:00PM"
+    end_time: "7:50PM"
+    duration_min: 290
+  >
+  details_file: "2023-Aug/2023-Aug-06.md"
+>
