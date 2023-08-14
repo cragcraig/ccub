@@ -505,3 +505,14 @@ log_entry: <
   >
   details_file: "2023-Aug/2023-Aug-06.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Aug-13"
+  title: "Installed long side stringers"
+  work_period: <
+    start_time: "10:30AM"
+    end_time: "7:30PM"
+    duration_min: 540
+  >
+  details_file: "2023-Aug/2023-Aug-13.md"
+>
