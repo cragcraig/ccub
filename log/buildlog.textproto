@@ -516,3 +516,14 @@ log_entry: <
   >
   details_file: "2023-Aug/2023-Aug-13.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Aug-14"
+  title: "Installed left door panel"
+  work_period: <
+    start_time: "7:30PM"
+    end_time: "9:30PM"
+    duration_min: 120
+  >
+  details_file: "2023-Aug/2023-Aug-14.md"
+>
