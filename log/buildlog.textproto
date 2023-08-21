@@ -527,3 +527,14 @@ log_entry: <
   >
   details_file: "2023-Aug/2023-Aug-14.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Aug-20"
+  title: "Floorboard heat duct and heat shield"
+  work_period: <
+    start_time: "2:30PM"
+    end_time: "5:30PM"
+    duration_min: 180
+  >
+  details_file: "2023-Aug/2023-Aug-20.md"
+>
