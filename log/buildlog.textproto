@@ -540,7 +540,7 @@ log_entry: <
 >
 log_entry: <
   assembly: "fuselage"
-  date: "2023-Sep-23"
+  date: "2023-Aug-23"
   title: "Seat reinforcement plates"
   work_period: <
     start_time: "6:00PM"
@@ -548,4 +548,36 @@ log_entry: <
     duration_min: 90
   >
   details_file: "2023-Sep/2023-Sep-23.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Sep-03"
+  title: "Mounting torque tube, part 1"
+  work_period: <
+    start_time: "12:00PM"
+    end_time: "1:00PM"
+    duration_min: 60
+  >
+  work_period: <
+    start_time: "4:00PM"
+    end_time: "5:30PM"
+    duration_min: 90
+  >
+  work_period: <
+    start_time: "8:00PM"
+    end_time: "9:00PM"
+    duration_min: 60
+  >
+  details_file: "2023-Sep/2023-Sep-03.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Sep-04"
+  title: "Mounting torque tube, rudder pedals, floorboard"
+  work_period: <
+    start_time: "10:00AM"
+    end_time: "9:00PM"
+    duration_min: 660
+  >
+  details_file: "2023-Sep/2023-Sep-04.md"
 >
