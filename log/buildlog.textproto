@@ -581,3 +581,36 @@ log_entry: <
   >
   details_file: "2023-Sep/2023-Sep-04.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Sep-29"
+  title: "Loosely fit floorboard screws"
+  work_period: <
+    start_time: "7:00PM"
+    end_time: "8:00PM"
+    duration_min: 60
+  >
+  details_file: "2023-Sep/2023-Sep-29.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Oct-03"
+  title: "Tighten floorboard screws"
+  work_period: <
+    start_time: "7:00PM"
+    end_time: "8:30PM"
+    duration_min: 90
+  >
+  details_file: "2023-Oct/2023-Oct-03.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Oct-07"
+  title: "Install rudder pedals"
+  work_period: <
+    start_time: "2:00PM"
+    end_time: "7:00PM"
+    duration_min: 300
+  >
+  details_file: "2023-Oct/2023-Oct-07.md"
+>
