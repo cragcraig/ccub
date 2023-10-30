@@ -614,3 +614,36 @@ log_entry: <
   >
   details_file: "2023-Oct/2023-Oct-07.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Oct-14"
+  title: "Finish rudder pedal installation"
+  work_period: <
+    start_time: "2:00PM"
+    end_time: "4:50PM"
+    duration_min: 170
+  >
+  details_file: "2023-Oct/2023-Oct-14.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Oct-28"
+  title: "Rear torque tube block"
+  work_period: <
+    start_time: "1:00PM"
+    end_time: "5:00PM"
+    duration_min: 240
+  >
+  details_file: "2023-Oct/2023-Oct-28.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Oct-29"
+  title: "Finish floorboard"
+  work_period: <
+    start_time: "1:00PM"
+    end_time: "9:45PM"
+    duration_min: 525
+  >
+  details_file: "2023-Oct/2023-Oct-29.md"
+>
