@@ -647,3 +647,52 @@ log_entry: <
   >
   details_file: "2023-Oct/2023-Oct-29.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Nov-24"
+  title: "Drilled holes in rear baggage panel for control cables"
+  work_period: <
+    start_time: "12:00PM"
+    end_time: "2:30PM"
+    duration_min: 150
+  >
+  details_file: "2023-Nov/2023-Nov-24.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Dec-17"
+  title: "Place and trim baggage panels"
+  work_period: <
+    start_time: "3:30PM"
+    end_time: "6:00PM"
+    duration_min: 150
+  >
+  work_period: <
+    start_time: "7:00PM"
+    end_time: "9:00PM"
+    duration_min: 120
+  >
+  details_file: "2023-Dec/2023-Dec-17.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Dec-19"
+  title: "Drilled remaining rivet holes attaching baggage panels"
+  work_period: <
+    start_time: "6:30PM"
+    end_time: "9:00PM"
+    duration_min: 150
+  >
+  details_file: "2023-Dec/2023-Dec-19.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Dec-22"
+  title: "Deburr baggage panels"
+  work_period: <
+    start_time: "11:00AM"
+    end_time: "1:30PM"
+    duration_min: 150
+  >
+  details_file: "2023-Dec/2023-Dec-22.md"
+>
