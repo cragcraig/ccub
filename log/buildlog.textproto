@@ -694,5 +694,32 @@ log_entry: <
     end_time: "1:30PM"
     duration_min: 150
   >
+  work_period: <
+    start_time: "7:00PM"
+    end_time: "9:30PM"
+    duration_min: 150
+  >
   details_file: "2023-Dec/2023-Dec-22.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Dec-23"
+  title: "Rivet baggage panels"
+  work_period: <
+    start_time: "10:30AM"
+    end_time: "2:00PM"
+    duration_min: 210
+  >
+  details_file: "2023-Dec/2023-Dec-23.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2023-Dec-29"
+  title: "Baggage door"
+  work_period: <
+    start_time: "4:30PM"
+    end_time: "9:45PM"
+    duration_min: 315
+  >
+  details_file: "2023-Dec/2023-Dec-29.md"
 >
