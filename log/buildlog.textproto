@@ -761,3 +761,14 @@ log_entry: <
   >
   details_file: "2024-Jan/2024-Jan-01.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Jan-06"
+  title: "Start installing front baggage floor panel"
+  work_period: <
+    start_time: "4:30PM"
+    end_time: "7:00PM"
+    duration_min: 150
+  >
+  details_file: "2024-Jan/2024-Jan-06.md"
+>
