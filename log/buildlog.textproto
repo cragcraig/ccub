@@ -772,3 +772,46 @@ log_entry: <
   >
   details_file: "2024-Jan/2024-Jan-06.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Jan-07"
+  title: "Finish baggage area floor panels"
+  work_period: <
+    start_time: "9:00AM"
+    end_time: "11:00AM"
+    duration_min: 120
+  >
+  work_period: <
+    start_time: "5:00PM"
+    end_time: "7:00PM"
+    duration_min: 120
+  >
+  details_file: "2024-Jan/2024-Jan-07.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Jan-13"
+  title: "Baggage door frame blending"
+  work_period: <
+    start_time: "9:30AM"
+    end_time: "12:00PM"
+    duration_min: 150
+  >
+  details_file: "2024-Jan/2024-Jan-13.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Jan-15"
+  title: "Baggage door frame blending"
+  work_period: <
+    start_time: "11:00AM"
+    end_time: "12:00PM"
+    duration_min: 60
+  >
+  work_period: <
+    start_time: "8:00PM"
+    end_time: "9:50PM"
+    duration_min: 140
+  >
+  details_file: "2024-Jan/2024-Jan-15.md"
+>
