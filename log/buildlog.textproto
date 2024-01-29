@@ -815,3 +815,14 @@ log_entry: <
   >
   details_file: "2024-Jan/2024-Jan-15.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Jan-28"
+  title: "Finish sanding baggage door frame filler"
+  work_period: <
+    start_time: "6:30PM"
+    end_time: "9:30PM"
+    duration_min: 180
+  >
+  details_file: "2024-Jan/2024-Jan-28.md"
+>
