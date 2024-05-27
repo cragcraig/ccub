@@ -826,3 +826,14 @@ log_entry: <
   >
   details_file: "2024-Jan/2024-Jan-28.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-May-27"
+  title: "Begin trim jack screw"
+  work_period: <
+    start_time: "1:30PM"
+    end_time: "5:30PM"
+    duration_min: 240
+  >
+  details_file: "2024-May/2024-May-27.md"
+>
