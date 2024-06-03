@@ -837,3 +837,14 @@ log_entry: <
   >
   details_file: "2024-May/2024-May-27.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Jun-02"
+  title: "Trim jack screw & limit screws"
+  work_period: <
+    start_time: "11:30AM"
+    end_time: "2:00PM"
+    duration_min: 150
+  >
+  details_file: "2024-Jun/2024-Jun-02.md"
+>
