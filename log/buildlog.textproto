@@ -848,3 +848,14 @@ log_entry: <
   >
   details_file: "2024-Jun/2024-Jun-02.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Jun-09"
+  title: "Plate trim motor and route wires"
+  work_period: <
+    start_time: "2:30PM"
+    end_time: "7:00PM"
+    duration_min: 270
+  >
+  details_file: "2024-Jun/2024-Jun-09.md"
+>
