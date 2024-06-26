@@ -859,3 +859,25 @@ log_entry: <
   >
   details_file: "2024-Jun/2024-Jun-09.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Jun-15"
+  title: "Attempt to finish trim motor install"
+  work_period: <
+    start_time: "11:30AM"
+    end_time: "5:30PM"
+    duration_min: 360
+  >
+  details_file: "2024-Jun/2024-Jun-15.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Jun-23"
+  title: "Second attempt at finishing trim motor install"
+  work_period: <
+    start_time: "10:00AM"
+    end_time: "6:00PM"
+    duration_min: 480
+  >
+  details_file: "2024-Jun/2024-Jun-23.md"
+>
