@@ -828,8 +828,79 @@ log_entry: <
 >
 log_entry: <
   assembly: "fuselage"
+  date: "2024-Feb-17"
+  title: "Roughed out fuel lines"
+  work_period: <
+    start_time: "11:00AM"
+    end_time: "4:30PM"
+    duration_min: 330
+  >
+  details_file: "2024-Feb/2024-Feb-17.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Feb-24"
+  title: "Fuel line anchor points"
+  work_period: <
+    start_time: "10:00AM"
+    end_time: "4:30PM"
+    duration_min: 390
+  >
+  details_file: "2024-Feb/2024-Feb-24.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Feb-25"
+  title: "Fuel line chafe protection"
+  work_period: <
+    start_time: "12:00PM"
+    end_time: "2:30PM"
+    duration_min: 150
+  >
+  details_file: "2024-Feb/2024-Feb-25.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Mar-09"
+  title: "Fuel lines, cont"
+  work_period: <
+    start_time: "9:00AM"
+    end_time: "10:00AM"
+    duration_min: 60
+  >
+  work_period: <
+    start_time: "1:00PM"
+    end_time: "5:00PM"
+    duration_min: 240
+  >
+  details_file: "2024-Mar/2024-Mar-09.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Mar-24"
+  title: "Fuel line fittings, testing, & redoing"
+  work_period: <
+    start_time: "2:00PM"
+    end_time: "7:00PM"
+    duration_min: 300
+  >
+  details_file: "2024-Mar/2024-Mar-24.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Mar-30"
+  title: "Fuel line fittings, testing, & redoing, part 2"
+  work_period: <
+    start_time: "9:00AM"
+    end_time: "2:00PM"
+    duration_min: 300
+  >
+  details_file: "2024-Mar/2024-Mar-30.md"
+>
+log_entry: <
+  assembly: "fuselage"
   date: "2024-May-27"
-  title: "Begin trim jack screw"
+  title: "Begin trim jack screw and more fuel line testing"
   work_period: <
     start_time: "1:30PM"
     end_time: "5:30PM"
@@ -880,4 +951,31 @@ log_entry: <
     duration_min: 480
   >
   details_file: "2024-Jun/2024-Jun-23.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Jun-30"
+  title: "Finalize trim sensor & surroundings"
+  work_period: <
+    start_time: "10:00AM"
+    end_time: "12:00PM"
+    duration_min: 120
+  >
+  work_period: <
+    start_time: "4:30PM"
+    end_time: "7:00PM"
+    duration_min: 150
+  >
+  details_file: "2024-Jun/2024-Jun-30.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Jul-01"
+  title: "Install top stringer"
+  work_period: <
+    start_time: "2:20PM"
+    end_time: "6:30PM"
+    duration_min: 250
+  >
+  details_file: "2024-Jul/2024-Jul-01.md"
 >
