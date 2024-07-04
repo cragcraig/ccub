@@ -899,8 +899,20 @@ log_entry: <
 >
 log_entry: <
   assembly: "fuselage"
+  date: "2024-May-11"
+  title: "New balloon test confirms fuel system is leaky"
+  work_period: <
+    start_time: "9:00AM"
+    end_time: "10:30AM"
+    duration_min: 90
+  >
+  details_file: "2024-May/2024-May-27.md"
+>
+
+log_entry: <
+  assembly: "fuselage"
   date: "2024-May-27"
-  title: "Begin trim jack screw and more fuel line testing"
+  title: "Begin trim jack screw and more fuel lines leak testing"
   work_period: <
     start_time: "1:30PM"
     end_time: "5:30PM"
@@ -994,4 +1006,15 @@ log_entry: <
     duration_min: 180
   >
   details_file: "2024-Jul/2024-Jul-02.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Jul-03"
+  title: "Finish fabric spacers"
+  work_period: <
+    start_time: "11:00AM"
+    end_time: "4:00PM"
+    duration_min: 300
+  >
+  details_file: "2024-Jul/2024-Jul-03.md"
 >
