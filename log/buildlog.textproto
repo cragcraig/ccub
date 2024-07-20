@@ -908,7 +908,6 @@ log_entry: <
   >
   details_file: "2024-May/2024-May-27.md"
 >
-
 log_entry: <
   assembly: "fuselage"
   date: "2024-May-27"
@@ -1017,4 +1016,31 @@ log_entry: <
     duration_min: 300
   >
   details_file: "2024-Jul/2024-Jul-03.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Jul-07"
+  title: "Clean-up methacrylate / prep cables"
+  work_period: <
+    start_time: "2:00PM"
+    end_time: "3:30PM"
+    duration_min: 90
+  >
+  details_file: "2024-Jul/2024-Jul-07.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Jul-08"
+  title: "Install elevator cables and test rudder cables"
+  work_period: <
+    start_time: "9:00AM"
+    end_time: "11:30AM"
+    duration_min: 150
+  >
+  work_period: <
+    start_time: "7:00PM"
+    end_time: "8:30PM"
+    duration_min: 90
+  >
+  details_file: "2024-Jul/2024-Jul-08.md"
 >
