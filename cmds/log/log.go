@@ -17,13 +17,14 @@ const (
 	logDetailsTemplate = ""
 )
 
-var CmdFactory = cli.NewCommandFactory(
+var LogCmd = cli.ConstructCommand(
 	cli.CommandMetadata{
 		Description: "Log a build entry",
 	},
-	create)
+	parse,
+	execute)
 
-type logCmd struct {
+type logArgs struct {
 	assembly    string
 	date        time.Time
 	workPeriods []*protos.TimePeriod
@@ -32,8 +33,8 @@ type logCmd struct {
 	overwrite   bool
 }
 
-func create(name string, args []string) (cli.Command, error) {
-	c := &logCmd{}
+func parse(name string, argv []string) (*logArgs, error) {
+	args := &logArgs{}
 	flags := flag.NewFlagSet(name, flag.ContinueOnError)
 	// Raw flags
 	assembly := flags.String("assembly", "", "Top-level assembly. Required.")
@@ -43,7 +44,7 @@ func create(name string, args []string) (cli.Command, error) {
 	tags := flags.String("tags", "", "Comma-separated list of arbitrary tags")
 	overwrite := flags.Bool("overwrite", false, "Replace existing log entry on specified date")
 	// Parse
-	if err := flags.Parse(args); err != nil {
+	if err := flags.Parse(argv); err != nil {
 		return nil, err
 	}
 	// Assembly
@@ -53,7 +54,7 @@ func create(name string, args []string) (cli.Command, error) {
 	if a, err := buildlog.ParseAssemblyArg(*assembly); err != nil {
 		return nil, err
 	} else {
-		c.assembly = a
+		args.assembly = a
 	}
 	// Date
 	// TODO: Required, print usage if missing
@@ -63,16 +64,16 @@ func create(name string, args []string) (cli.Command, error) {
 	if d, err := buildlog.ParseDateArg(*date); err != nil {
 		return nil, err
 	} else {
-		c.date = d
+		args.date = d
 	}
 	// Work periods
 	if len(*workPeriods) == 0 {
 		return nil, errors.New("'time' is required")
 	}
-	if w, err := buildlog.ParseWorkPeriodsArg(c.date.Year(), c.date.Month(), c.date.Day(), *workPeriods); err != nil {
+	if w, err := buildlog.ParseWorkPeriodsArg(args.date.Year(), args.date.Month(), args.date.Day(), *workPeriods); err != nil {
 		return nil, err
 	} else {
-		c.workPeriods = w
+		args.workPeriods = w
 	}
 	if len(*title) == 0 {
 		return nil, errors.New("'title' is required")
@@ -82,36 +83,36 @@ func create(name string, args []string) (cli.Command, error) {
 			return nil, errors.New("Title must be a single line of text (no newlines)")
 		}
 	}
-	c.title = *title
+	args.title = *title
 	// Tags
 	if len(*tags) > 0 {
-		c.tags = strings.Split(*tags, ",")
+		args.tags = strings.Split(*tags, ",")
 	}
-	for _, t := range c.tags {
+	for _, t := range args.tags {
 		if len(t) == 0 {
 			return nil, errors.New("Tags must not be empty strings")
 		}
 	}
 	// Overwrite
-	c.overwrite = *overwrite
-	return c, nil
+	args.overwrite = *overwrite
+	return args, nil
 }
 
-func (c *logCmd) Execute() error {
+func execute(args *logArgs) error {
 	entry := protos.BuildLogEntry{
-		Assembly:    c.assembly,
-		Date:        buildlog.FormatDateForLog(c.date),
-		WorkPeriod:  c.workPeriods,
-		Title:       c.title,
-		DetailsFile: buildlog.LogDetailsFile([]string{}, c.date),
-		Tags:        c.tags,
+		Assembly:    args.assembly,
+		Date:        buildlog.FormatDateForLog(args.date),
+		WorkPeriod:  args.workPeriods,
+		Title:       args.title,
+		DetailsFile: buildlog.LogDetailsFile([]string{}, args.date),
+		Tags:        args.tags,
 	}
 
-	if err := buildlog.UpdateLogMetadataFile(buildlog.LogsPath, &entry, c.overwrite); err != nil {
+	if err := buildlog.UpdateLogMetadataFile(buildlog.LogsPath, &entry, args.overwrite); err != nil {
 		return err
 	}
 	fmt.Printf("Logged:   %s\n", buildlog.LogsPath)
-	if f, err := buildlog.CreateLogDetailsFile(c.assembly, c.date, false); err != nil {
+	if f, err := buildlog.CreateLogDetailsFile(args.assembly, args.date, false); err != nil {
 		return err
 	} else {
 		fmt.Printf("Details:  %s\n", f)

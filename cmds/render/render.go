@@ -11,35 +11,36 @@ import (
 	"github.com/cragcraig/ccub/protos"
 )
 
-var CmdFactory = cli.NewCommandFactory(
+var CmdFactory = cli.ConstructCommand(
 	cli.CommandMetadata{
 		Description: "Render build logs using a user-specified template",
 	},
-	create)
+	parse,
+	execute)
 
-type renderCmd struct {
+type renderArgs struct {
 	tmplFile string
 }
 
-func create(name string, args []string) (cli.Command, error) {
-	c := &renderCmd{}
+func parse(name string, argv []string) (*renderArgs, error) {
+	args := &renderArgs{}
 	flags := flag.NewFlagSet(name, flag.ContinueOnError)
 	// Raw flags
 	tmplFile := flags.String("tmpl", "", "Template text file. Required.")
 	// Parse
-	if err := flags.Parse(args); err != nil {
+	if err := flags.Parse(argv); err != nil {
 		return nil, err
 	}
 	// Template
 	if len(*tmplFile) == 0 {
 		return nil, errors.New("'tmpl' is required")
 	}
-	c.tmplFile = *tmplFile
-	return c, nil
+	args.tmplFile = *tmplFile
+	return args, nil
 }
 
-func (c *renderCmd) Execute() error {
-	tmpl, err := buildlog.LoadTemplateFromFile(c.tmplFile)
+func execute(args *renderArgs) error {
+	tmpl, err := buildlog.LoadTemplateFromFile(args.tmplFile)
 	if err != nil {
 		return err
 	}

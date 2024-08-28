@@ -8,53 +8,51 @@ import (
 
 const helpCmdName = "help"
 
-type Command interface {
-	Execute() error
-}
-
 type CommandMetadata struct {
 	Description string
 }
 
-type CommandFactory interface {
+type Command interface {
 	Metadata() CommandMetadata
-	Create(name string, args []string) (Command, error)
+	ParseArgsAndExecute(name string, argv []string) error
 }
 
-func NewCommandFactory(metadata CommandMetadata, factoryFn func(name string, args []string) (Command, error)) CommandFactory {
-	return &staticCommandFactory{
+func ConstructCommand[T any](metadata CommandMetadata, parseArgs func(name string, args []string) (T, error), execute func(args T) error) Command {
+	return commandTmpl[T]{
 		metadata:  metadata,
-		factoryFn: factoryFn,
+		parseArgs: parseArgs,
+		execute:   execute,
 	}
 }
 
-type staticCommandFactory struct {
+type commandTmpl[T any] struct {
 	metadata  CommandMetadata
-	factoryFn func(name string, args []string) (Command, error)
+	parseArgs func(name string, argv []string) (T, error)
+	execute   func(args T) error
 }
 
-func (m *staticCommandFactory) Metadata() CommandMetadata {
-	return m.metadata
+func (cmd commandTmpl[T]) Metadata() CommandMetadata {
+	return cmd.metadata
 }
 
-func (m *staticCommandFactory) Create(name string, args []string) (Command, error) {
-	return m.factoryFn(name, args)
+func (cmd commandTmpl[T]) ParseArgsAndExecute(name string, argv []string) error {
+	if args, err := cmd.parseArgs(name, argv); err != nil {
+		if errors.Is(err, flag.ErrHelp) {
+			return nil
+		}
+		return err
+	} else {
+		return cmd.execute(args)
+	}
 }
 
-func Exec(commands map[string]CommandFactory, cliName string, cmdName string, argv []string) error {
+func Exec(commands map[string]Command, cliName string, cmdName string, argv []string) error {
 	if cmdName == helpCmdName || cmdName == "" {
 		// Help
 		return help(commands, cliName, argv)
-	} else if factory, exists := commands[cmdName]; exists {
+	} else if cmd, exists := commands[cmdName]; exists {
 		// All other commands
-		if cmd, err := factory.Create(cmdName, argv); err != nil {
-			if errors.Is(err, flag.ErrHelp) {
-				return nil
-			}
-			return err
-		} else {
-			return cmd.Execute()
-		}
+		return cmd.ParseArgsAndExecute(cmdName, argv)
 	} else {
 		// Unrecognized
 		return fmt.Errorf("Unrecognized command \"%s\", try \"help\"", cmdName)
@@ -62,10 +60,10 @@ func Exec(commands map[string]CommandFactory, cliName string, cmdName string, ar
 }
 
 func printVersion() {
-	fmt.Println("Carbon Cub Build Log, version 0.19")
+	fmt.Println("Carbon Cub Build Log, version 0.20")
 }
 
-func help(commands map[string]CommandFactory, cliName string, argv []string) error {
+func help(commands map[string]Command, cliName string, argv []string) error {
 	if len(argv) == 0 {
 		printVersion()
 		fmt.Println("")
@@ -82,8 +80,8 @@ func help(commands map[string]CommandFactory, cliName string, argv []string) err
 			}
 		}
 		// Print all commands with descriptions
-		for name, factory := range commands {
-			fmt.Printf("  %-*s  %s\n", max, name, factory.Metadata().Description)
+		for name, cmd := range commands {
+			fmt.Printf("  %-*s  %s\n", max, name, cmd.Metadata().Description)
 		}
 		return nil
 	} else {

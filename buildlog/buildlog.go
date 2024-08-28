@@ -102,7 +102,7 @@ func CreateLogDetailsFile(assembly string, date time.Time, overwrite bool) (stri
 func UpdateLogMetadataFile(f string, entry *protos.BuildLogEntry, overwrite bool) error {
 	logs, err := ReadLogs(f)
 	if err != nil && !os.IsNotExist(err) {
-		return fmt.Errorf("Could not open logs metadata from %s\n", f, err.Error())
+		return fmt.Errorf("Could not open logs metadata from %s\n%s", f, err.Error())
 	}
 
 	date, err := ParseDateOfLog(entry)
