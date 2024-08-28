@@ -39,6 +39,18 @@ var validDateLayouts = []dateForm{
 	{"1/_2", timeAddYear},
 }
 
+func SameDayKitchenTimeDiff(end string, start string) (time.Duration, error) {
+	tend, err := ParseKitchenTime(0, 0, 0, end)
+	if err != nil {
+		return 0, err
+	}
+	tstart, err := ParseKitchenTime(0, 0, 0, start)
+	if err != nil {
+		return 0, err
+	}
+	return tend.Sub(tstart), nil
+}
+
 func ParseKitchenTime(year int, month time.Month, day int, kitchen string) (time.Time, error) {
 	submatches := kitchenTimePattern.FindStringSubmatch(kitchen)
 	if submatches == nil {

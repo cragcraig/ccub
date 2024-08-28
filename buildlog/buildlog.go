@@ -37,12 +37,9 @@ func containsString(s []string, str string) bool {
 	return false
 }
 
-func LogExists(date time.Time, logs *protos.BuildLogs) (exists bool, index int) {
-	if logs.LogEntry == nil {
-		return false, -1
-	}
+func LogExists(date time.Time, logs []*protos.BuildLogEntry) (exists bool, index int) {
 	d := FormatDateForLog(date)
-	for i, v := range logs.LogEntry {
+	for i, v := range logs {
 		if v.Date == d {
 			return true, i
 		}
@@ -99,27 +96,47 @@ func CreateLogDetailsFile(assembly string, date time.Time, overwrite bool) (stri
 	return f, nil
 }
 
-func UpdateLogMetadataFile(f string, entry *protos.BuildLogEntry, overwrite bool) error {
+type LogUpdater func(logs []*protos.BuildLogEntry) ([]*protos.BuildLogEntry, error)
+
+func InsertLogUpdater(entry *protos.BuildLogEntry) LogUpdater {
+	return func(logs []*protos.BuildLogEntry) ([]*protos.BuildLogEntry, error) {
+		date, err := ParseDateOfLog(entry)
+		if err != nil {
+			return logs, err
+		}
+		exists, _ := LogExists(date, logs)
+		if exists {
+			return logs, fmt.Errorf("Log entry already exists for %s", entry.Date)
+		}
+		return append(logs, entry), nil
+	}
+}
+
+func UpsertLogUpdater(entry *protos.BuildLogEntry) LogUpdater {
+	return func(logs []*protos.BuildLogEntry) ([]*protos.BuildLogEntry, error) {
+		date, err := ParseDateOfLog(entry)
+		if err != nil {
+			return logs, err
+		}
+		exists, index := LogExists(date, logs)
+		if exists {
+			logs[index] = entry
+		} else {
+			logs = append(logs, entry)
+		}
+		return logs, nil
+	}
+}
+
+func UpdateLogMetadataFile(f string, update LogUpdater) error {
 	logs, err := ReadLogs(f)
 	if err != nil && !os.IsNotExist(err) {
 		return fmt.Errorf("Could not open logs metadata from %s\n%s", f, err.Error())
 	}
 
-	date, err := ParseDateOfLog(entry)
+	logs.LogEntry, err = update(logs.LogEntry)
 	if err != nil {
 		return err
-	}
-	exists, index := LogExists(date, logs)
-	// Don't overwrite
-	if !overwrite && exists {
-		return fmt.Errorf("Log entry already exists for %s", entry.Date)
-	}
-
-	// Overwrite if exists, otherwise append
-	if exists {
-		logs.LogEntry[index] = entry
-	} else {
-		logs.LogEntry = append(logs.LogEntry, entry)
 	}
 
 	// Ensure logs are ordered by date

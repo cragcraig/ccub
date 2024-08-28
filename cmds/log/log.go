@@ -108,7 +108,13 @@ func execute(args *logArgs) error {
 		Tags:        args.tags,
 	}
 
-	if err := buildlog.UpdateLogMetadataFile(buildlog.LogsPath, &entry, args.overwrite); err != nil {
+	// Insert or upsert depending whether overwrite is enabled
+	update := buildlog.InsertLogUpdater(&entry)
+	if args.overwrite {
+		update = buildlog.UpsertLogUpdater(&entry)
+	}
+
+	if err := buildlog.UpdateLogMetadataFile(buildlog.LogsPath, update); err != nil {
 		return err
 	}
 	fmt.Printf("Logged:   %s\n", buildlog.LogsPath)

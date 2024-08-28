@@ -14,6 +14,9 @@ const cliName = "ccub"
 
 var commands = map[string]cli.Command{
 	"log":    log.LogCmd,
+	"start":  log.StartCmd,
+	"stop":   log.StopCmd,
+	"edit":   log.EditCmd,
 	"render": render.CmdFactory,
 }
 
