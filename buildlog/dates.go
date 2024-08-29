@@ -39,6 +39,14 @@ var validDateLayouts = []dateForm{
 	{"1/_2", timeAddYear},
 }
 
+func ValidDateFormats() []string {
+	valid := []string{"today", "yesterday"}
+	for _, v := range validDateLayouts {
+		valid = append(valid, strings.ReplaceAll(v.layout, "_", "0"))
+	}
+	return valid
+}
+
 func SameDayKitchenTimeDiff(end string, start string) (time.Duration, error) {
 	tend, err := ParseKitchenTime(0, 0, 0, end)
 	if err != nil {
@@ -75,21 +83,20 @@ func ParseKitchenTime(year int, month time.Month, day int, kitchen string) (time
 }
 
 func ParseDateArg(arg string) (time.Time, error) {
-	if arg == "today" {
-		return time.Now(), nil
-	} else if arg == "yesterday" {
-		return time.Now().AddDate(0, 0, -1), nil
+	if len(arg) > 0 {
+		// Accept any partial spelling of "today" or "yesterday", e.g. "t" or "y"
+		if arg == "today"[0:len(arg)] {
+			return time.Now(), nil
+		} else if arg == "yesterday"[0:len(arg)] {
+			return time.Now().AddDate(0, 0, -1), nil
+		}
 	}
 	for _, df := range validDateLayouts {
 		if t, err := time.Parse(df.layout, arg); err == nil {
 			return df.adjust(t), nil
 		}
 	}
-	valid := []string{"today", "yesterday"}
-	for _, v := range validDateLayouts {
-		valid = append(valid, v.layout)
-	}
-	return time.Time{}, fmt.Errorf("Bad date %s, valid forms are:\n  %s", arg, strings.Join(valid, "\n  "))
+	return time.Time{}, fmt.Errorf("Bad date %s, valid forms are:\n  %s", arg, strings.Join(ValidDateFormats(), "\n  "))
 }
 
 func ParseWorkPeriodsArg(year int, month time.Month, day int, arg string) ([]*protos.TimePeriod, error) {

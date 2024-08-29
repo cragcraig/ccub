@@ -1,16 +1,19 @@
-package log
+package cmds
 
 import (
 	"errors"
 	"flag"
 	"fmt"
 	"math"
+	"strings"
 	"time"
 
 	"github.com/cragcraig/ccub/buildlog"
 	"github.com/cragcraig/ccub/cli"
 	"github.com/cragcraig/ccub/protos"
 )
+
+const humanReadableDate = "Mon Jan 02, 2006"
 
 type startArgs struct {
 	assembly string
@@ -68,15 +71,15 @@ func StartLogUpdater(entry *protos.BuildLogEntry) buildlog.LogUpdater {
 			merged := logs[index]
 			pw := merged.WorkPeriod[len(merged.WorkPeriod)-1]
 			if len(pw.EndTime) == 0 {
-				dm, err := buildlog.SameDayKitchenTimeDiff(entry.WorkPeriod[0].StartTime, pw.StartTime)
+				dur, err := buildlog.SameDayKitchenTimeDiff(entry.WorkPeriod[0].StartTime, pw.StartTime)
 				if err != nil {
 					return nil, err
 				}
 
 				return nil, fmt.Errorf(
-					"Work period already started at %s (%d min ago), run 'stop' to finish",
+					"Work period already ongoing, started at %s (%d min ago). Run 'stop' to end this work period.",
 					pw.StartTime,
-					uint32(math.Ceil(dm.Minutes())))
+					uint32(math.Ceil(dur.Minutes())))
 			}
 			merged.WorkPeriod = append(merged.WorkPeriod, entry.WorkPeriod[0])
 		} else {
@@ -110,32 +113,50 @@ func executeStart(args *startArgs) error {
 	if err := buildlog.UpdateLogMetadataFile(buildlog.LogsPath, StartLogUpdater(&entry)); err != nil {
 		return err
 	}
-	fmt.Printf("Started work period at %s:   %s\n", now.Format(time.Kitchen), buildlog.LogsPath)
+	fmt.Printf("Started a new work period at %s\n\n", now.Format(time.Kitchen))
+	fmt.Printf("Updated log file:   %s\n", buildlog.LogsPath)
 	if f, err := buildlog.CreateLogDetailsFile(args.assembly, now, false); err != nil {
 		return err
 	} else {
-		fmt.Printf("Details:  %s\n", f)
+		fmt.Printf("Details file:  %s\n", f)
 		return buildlog.LaunchEditor(f)
 	}
 }
 
-func parseEdit(name string, argv []string) (*any, error) {
-	return nil, nil
+type editArgs struct {
+	date time.Time
 }
 
-func executeEdit(_ *any) error {
-	now := time.Now()
+func parseEdit(name string, argv []string) (*editArgs, error) {
+	args := &editArgs{}
+	flags := flag.NewFlagSet(name, flag.ContinueOnError)
+	// Raw flags
+	date := flags.String("date", "today", "Date of work. Supported forms: "+strings.Join(buildlog.ValidDateFormats(), ", "))
+	// Parse
+	if err := flags.Parse(argv); err != nil {
+		return nil, err
+	}
+	// Date
+	if d, err := buildlog.ParseDateArg(*date); err != nil {
+		return nil, err
+	} else {
+		args.date = d
+	}
+	return args, nil
+}
+
+func executeEdit(args *editArgs) error {
 	logs, err := buildlog.ReadLogs(buildlog.LogsPath)
 	if err != nil {
 		return err
 	}
 
-	exists, _ := buildlog.LogExists(now, logs.LogEntry)
+	exists, _ := buildlog.LogExists(args.date, logs.LogEntry)
 	if !exists {
-		return fmt.Errorf("Log entry for %s has not been created or started yet", buildlog.FormatDateForLog(now))
+		return fmt.Errorf("No log entry found for %s. Create a log entry using 'log' or 'start'.", args.date.Format(humanReadableDate))
 	}
-	df := buildlog.LogDetailsFile([]string{buildlog.LogsDir}, now)
-	fmt.Printf("Editing details:  %s\n", df)
+	df := buildlog.LogDetailsFile([]string{buildlog.LogsDir}, args.date)
+	fmt.Printf("Editing details for %s\n\nDetails file:  %s\n", args.date.Format(humanReadableDate), df)
 	return buildlog.LaunchEditor(df)
 }
 
@@ -147,7 +168,7 @@ func StopLogUpdater(now time.Time) buildlog.LogUpdater {
 	return func(logs []*protos.BuildLogEntry) ([]*protos.BuildLogEntry, error) {
 		exists, index := buildlog.LogExists(now, logs)
 		if !exists {
-			return nil, fmt.Errorf("No log entry exists for today (%s)", now.Format(time.Kitchen))
+			return nil, fmt.Errorf("No log entry exists for today (%s)", now.Format(humanReadableDate))
 		}
 		merged := logs[index]
 		if len(merged.WorkPeriod) == 0 {
@@ -164,6 +185,11 @@ func StopLogUpdater(now time.Time) buildlog.LogUpdater {
 		}
 		pw.DurationMin = uint32(math.Ceil(dm.Minutes()))
 		fmt.Printf("Stopped work period, %s to %s (%d min):   %s\n", pw.StartTime, pw.EndTime, pw.DurationMin, buildlog.LogsPath)
+		total := 0
+		for _, wp := range merged.WorkPeriod {
+			total += int(wp.DurationMin)
+		}
+		fmt.Printf("Total time worked on %s:  %s\n", now.Format(humanReadableDate), (time.Duration(total) * time.Minute).String())
 		return logs, nil
 	}
 }
@@ -174,5 +200,6 @@ func executeStop(_ *any) error {
 	if err := buildlog.UpdateLogMetadataFile(buildlog.LogsPath, StopLogUpdater(now)); err != nil {
 		return err
 	}
+	fmt.Printf("Updated log file:   %s\n", buildlog.LogsPath)
 	return nil
 }

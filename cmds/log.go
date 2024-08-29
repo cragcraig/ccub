@@ -1,4 +1,4 @@
-package log
+package cmds
 
 import (
 	"errors"
@@ -37,8 +37,8 @@ func parse(name string, argv []string) (*logArgs, error) {
 	args := &logArgs{}
 	flags := flag.NewFlagSet(name, flag.ContinueOnError)
 	// Raw flags
-	assembly := flags.String("assembly", "", "Top-level assembly. Required.")
-	date := flags.String("date", "", "Date of work. Required.")
+	assembly := flags.String("assembly", "", "Top-level assembly; required.")
+	date := flags.String("date", "", "Date of work; required. Supported forms: "+strings.Join(buildlog.ValidDateFormats(), ", "))
 	workPeriods := flags.String("time", "", "Time period(s) of work. Required.")
 	title := flags.String("title", "", "Title for the log entry")
 	tags := flags.String("tags", "", "Comma-separated list of arbitrary tags")
@@ -57,7 +57,6 @@ func parse(name string, argv []string) (*logArgs, error) {
 		args.assembly = a
 	}
 	// Date
-	// TODO: Required, print usage if missing
 	if len(*date) == 0 {
 		return nil, errors.New("'date' is required")
 	}

@@ -1,4 +1,4 @@
-package render
+package cmds
 
 import (
 	"errors"
@@ -15,14 +15,14 @@ var RenderCmd = cli.ConstructCommand(
 	cli.CommandMetadata{
 		Description: "Render build logs using a template",
 	},
-	parse,
-	execute)
+	parseRender,
+	executeRender)
 
 type renderArgs struct {
 	tmplFile string
 }
 
-func parse(name string, argv []string) (*renderArgs, error) {
+func parseRender(name string, argv []string) (*renderArgs, error) {
 	args := &renderArgs{}
 	flags := flag.NewFlagSet(name, flag.ContinueOnError)
 	// Raw flags
@@ -39,7 +39,7 @@ func parse(name string, argv []string) (*renderArgs, error) {
 	return args, nil
 }
 
-func execute(args *renderArgs) error {
+func executeRender(args *renderArgs) error {
 	tmpl, err := buildlog.LoadTemplateFromFile(args.tmplFile)
 	if err != nil {
 		return err

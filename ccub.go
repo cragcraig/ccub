@@ -6,18 +6,17 @@ import (
 	"strings"
 
 	"github.com/cragcraig/ccub/cli"
-	"github.com/cragcraig/ccub/cmds/log"
-	"github.com/cragcraig/ccub/cmds/render"
+	"github.com/cragcraig/ccub/cmds"
 )
 
 const cliName = "ccub"
 
 var commands = map[string]cli.Command{
-	"log":    log.LogCmd,
-	"start":  log.StartCmd,
-	"stop":   log.StopCmd,
-	"edit":   log.EditCmd,
-	"render": render.RenderCmd,
+	"log":    cmds.LogCmd,
+	"start":  cmds.StartCmd,
+	"stop":   cmds.StopCmd,
+	"edit":   cmds.EditCmd,
+	"render": cmds.RenderCmd,
 }
 
 func main() {
