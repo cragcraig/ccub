@@ -19,7 +19,7 @@ const (
 
 var LogCmd = cli.ConstructCommand(
 	cli.CommandMetadata{
-		Description: "Log a build entry",
+		Description: "Log a full day build entry",
 	},
 	parse,
 	execute)

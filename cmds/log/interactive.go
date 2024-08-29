@@ -18,21 +18,21 @@ type startArgs struct {
 
 var StartCmd = cli.ConstructCommand(
 	cli.CommandMetadata{
-		Description: "Start working in an interactive build log session",
+		Description: "Start working",
 	},
 	parseStart,
 	executeStart)
 
 var EditCmd = cli.ConstructCommand(
 	cli.CommandMetadata{
-		Description: "Edit details for an interactive build log session",
+		Description: "Edit log details",
 	},
 	parseEdit,
 	executeEdit)
 
 var StopCmd = cli.ConstructCommand(
 	cli.CommandMetadata{
-		Description: "Stop working in an interactive build log session",
+		Description: "Stop working",
 	},
 	parseStop,
 	executeStop)

@@ -17,7 +17,7 @@ var commands = map[string]cli.Command{
 	"start":  log.StartCmd,
 	"stop":   log.StopCmd,
 	"edit":   log.EditCmd,
-	"render": render.CmdFactory,
+	"render": render.RenderCmd,
 }
 
 func main() {

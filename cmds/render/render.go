@@ -11,9 +11,9 @@ import (
 	"github.com/cragcraig/ccub/protos"
 )
 
-var CmdFactory = cli.ConstructCommand(
+var RenderCmd = cli.ConstructCommand(
 	cli.CommandMetadata{
-		Description: "Render build logs using a user-specified template",
+		Description: "Render build logs using a template",
 	},
 	parse,
 	execute)
