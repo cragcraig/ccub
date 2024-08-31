@@ -54,7 +54,7 @@ func EnsureDirExists(dir string) error {
 		return err
 	}
 	if !fi.Mode().IsDir() {
-		return fmt.Errorf("Logs directory %s already exists but is not a directory", dir)
+		return fmt.Errorf("File %s already exists but is not a directory", dir)
 	}
 	return nil
 }

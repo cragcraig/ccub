@@ -103,7 +103,7 @@ func execute(args *logArgs) error {
 		Date:        buildlog.FormatDateForLog(args.date),
 		WorkPeriod:  args.workPeriods,
 		Title:       args.title,
-		DetailsFile: buildlog.LogDetailsFile([]string{}, args.date),
+		DetailsFile: buildlog.LogDetailsFile(args.date),
 		Tags:        args.tags,
 	}
 

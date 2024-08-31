@@ -15,6 +15,7 @@ var commands = map[string]cli.Command{
 	"log":    cmds.LogCmd,
 	"start":  cmds.StartCmd,
 	"stop":   cmds.StopCmd,
+	"status": cmds.StatusCmd,
 	"edit":   cmds.EditCmd,
 	"render": cmds.RenderCmd,
 }

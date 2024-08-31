@@ -70,19 +70,27 @@ func WriteLogs(f string, logs *protos.BuildLogs) error {
 	return proto.MarshalText(fp, logs)
 }
 
+func PrettyPrintLogEntry(entry *protos.BuildLogEntry) string {
+	return proto.MarshalTextString(entry)
+}
+
 func LogDetailsDir(basedir []string, date time.Time) string {
 	return strings.Join(append(basedir, date.Format(MonthLayout)), "/")
 }
 
-func LogDetailsFile(basedir []string, date time.Time) string {
+func LogDetailsFileUnderBasedir(basedir []string, date time.Time) string {
 	return strings.Join([]string{LogDetailsDir(basedir, date), date.Format(DateLayout) + ".md"}, "/")
+}
+
+func LogDetailsFile(date time.Time) string {
+	return LogDetailsFileUnderBasedir([]string{LogsDir}, date)
 }
 
 func CreateLogDetailsFile(assembly string, date time.Time, overwrite bool) (string, error) {
 	if err := EnsureDirExists(LogDetailsDir([]string{LogsDir}, date)); err != nil {
 		return "", err
 	}
-	f := LogDetailsFile([]string{LogsDir}, date)
+	f := LogDetailsFile(date)
 	if !overwrite {
 		if exists, err := FileExists(f); err != nil {
 			return "", err
