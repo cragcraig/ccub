@@ -1044,3 +1044,33 @@ log_entry: <
   >
   details_file: "2024-Jul/2024-Jul-08.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Aug-29"
+  work_period: <
+    start_time: "7:33PM"
+    end_time: "7:34PM"
+    duration_min: 1
+  >
+  details_file: "2024-Aug/2024-Aug-29.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Oct-19"
+  work_period: <
+    start_time: "3:28PM"
+    end_time: "8:20PM"
+    duration_min: 292
+  >
+  details_file: "log/2024-Oct/2024-Oct-19.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Oct-20"
+  work_period: <
+    start_time: "3:15PM"
+    end_time: "7:51PM"
+    duration_min: 276
+  >
+  details_file: "log/2024-Oct/2024-Oct-20.md"
+>
