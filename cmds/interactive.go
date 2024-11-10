@@ -1,10 +1,12 @@
 package cmds
 
 import (
+	"bufio"
 	"errors"
 	"flag"
 	"fmt"
 	"math"
+	"os"
 	"strings"
 	"time"
 
@@ -13,7 +15,10 @@ import (
 	"github.com/cragcraig/ccub/protos"
 )
 
-const humanReadableDate = "Mon Jan 02, 2006"
+const (
+    humanReadableDate = "Monday Jan 02, 2006"
+    humanReadableDateShort = "Jan 02, 2006"
+)
 
 type startArgs struct {
 	assembly string
@@ -48,6 +53,9 @@ var StopCmd = cli.ConstructCommand(
 	executeStop)
 
 func durationMinToString(minutes int) string {
+	if minutes == 0 {
+		return "0m"
+	}
 	return strings.TrimSuffix((time.Duration(minutes) * time.Minute).String(), "0s")
 }
 
@@ -220,7 +228,7 @@ func executeEdit(args *editArgs) error {
 		return fmt.Errorf("No log entry found for %s. Create a log entry using 'log' or 'start'.", args.date.Format(humanReadableDate))
 	}
 	df := buildlog.LogDetailsFile(args.date)
-	fmt.Printf("Editing details for %s\n\nDetails file:  %s\n", args.date.Format(humanReadableDate), df)
+	fmt.Printf("Editing details for %s\n\nDetails file:  %s\n", args.date.Format(humanReadableDateShort), df)
 	return buildlog.LaunchEditor(df)
 }
 
@@ -249,21 +257,30 @@ func StopLogUpdater(now time.Time) buildlog.LogUpdater {
 		}
 		pw.DurationMin = uint32(math.Ceil(dm.Minutes()))
 		fmt.Printf("Stopped work period, %s to %s (%d minutes)\n", pw.StartTime, pw.EndTime, pw.DurationMin)
+
+		if len(merged.Title) == 0 {
+			fmt.Printf("\nEnter title for log entry\n> ")
+			scanner := bufio.NewScanner(os.Stdin)
+			scanner.Scan()
+			merged.Title = scanner.Text()
+		} else {
+			fmt.Printf("\nLog Entry:  %s\n", merged.Title)
+		}
+
 		total := 0
 		for _, wp := range merged.WorkPeriod {
 			total += int(wp.DurationMin)
 		}
-		fmt.Printf("Total time worked on %s:  %s\n", now.Format(humanReadableDate), durationMinToString(total))
+		fmt.Printf("Total time worked %s:  %s\n", now.Format(humanReadableDate), durationMinToString(total))
 		return logs, nil
 	}
 }
 
 func executeStop(_ *any) error {
 	now := time.Now()
-
 	if err := buildlog.UpdateLogMetadataFile(buildlog.LogsPath, StopLogUpdater(now)); err != nil {
 		return err
 	}
-	fmt.Printf("\nUpdated log entry for %s in log file:   %s\n", now.Format(humanReadableDate), buildlog.LogsPath)
+	fmt.Printf("\nUpdated log entry for %s in log file:   %s\n", now.Format(humanReadableDateShort), buildlog.LogsPath)
 	return nil
 }
