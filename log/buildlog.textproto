@@ -1076,3 +1076,14 @@ log_entry: <
   >
   details_file: "log/2024-Oct/2024-Oct-20.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Nov-29"
+  title: "Additional holes in firewall for CC363i-FP engine"
+  work_period: <
+    start_time: "3:14PM"
+    end_time: "6:41PM"
+    duration_min: 207
+  >
+  details_file: "log/2024-Nov/2024-Nov-29.md"
+>
