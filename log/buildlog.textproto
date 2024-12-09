@@ -1098,3 +1098,19 @@ log_entry: <
   >
   details_file: "log/2024-Dec/2024-Dec-07.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Dec-08"
+  title: "Cut firewall stiffener shop aid and match drill angles"
+  work_period: <
+    start_time: "8:08AM"
+    end_time: "9:08PM"
+    duration_min: 60
+  >
+  work_period: <
+    start_time: "4:30AM"
+    end_time: "8:45PM"
+    duration_min: 255
+  >
+  details_file: "log/2024-Dec/2024-Dec-08.md"
+>
