@@ -1125,3 +1125,22 @@ log_entry: <
   >
   details_file: "log/2024-Dec/2024-Dec-09.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Dec-23"
+  work_period: <
+    start_time: "1:28PM"
+  >
+  details_file: "log/2024-Dec/2024-Dec-23.md"
+>
+log_entry: <
+  assembly: "fuselage"
+  date: "2024-Dec-31"
+  title: "Finished drilling out firewall exterior edge rivets\033:x"
+  work_period: <
+    start_time: "6:09PM"
+    end_time: "7:04PM"
+    duration_min: 55
+  >
+  details_file: "log/2024-Dec/2024-Dec-31.md"
+>
