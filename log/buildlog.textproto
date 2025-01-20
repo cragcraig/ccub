@@ -1144,3 +1144,14 @@ log_entry: <
   >
   details_file: "log/2024-Dec/2024-Dec-31.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2025-Jan-19"
+  title: "Reinstalled rivets around firewall and installed angles for bottom tunnel"
+  work_period: <
+    start_time: "2:31PM"
+    end_time: "7:36PM"
+    duration_min: 305
+  >
+  details_file: "log/2025-Jan/2025-Jan-19.md"
+>
