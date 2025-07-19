@@ -1155,3 +1155,14 @@ log_entry: <
   >
   details_file: "log/2025-Jan/2025-Jan-19.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2025-Jul-19"
+  title: "Prepped firewall on fuselage"
+  work_period: <
+    start_time: "1:28PM"
+    end_time: "3:34PM"
+    duration_min: 126
+  >
+  details_file: "log/2025-Jul/2025-Jul-19.md"
+>
