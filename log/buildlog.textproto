@@ -1166,3 +1166,14 @@ log_entry: <
   >
   details_file: "log/2025-Jul/2025-Jul-19.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2025-Jul-20"
+  title: "Installed boot cowl tunnel to firewall"
+  work_period: <
+    start_time: "11:15AM"
+    end_time: "4:03PM"
+    duration_min: 288
+  >
+  details_file: "log/2025-Jul/2025-Jul-20.md"
+>
