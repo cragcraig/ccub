@@ -1177,3 +1177,14 @@ log_entry: <
   >
   details_file: "log/2025-Jul/2025-Jul-20.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2025-Sep-28"
+  title: "Assembled bool cowl side panels in place with clamps"
+  work_period: <
+    start_time: "12:23PM"
+    end_time: "5:36PM"
+    duration_min: 313
+  >
+  details_file: "log/2025-Sep/2025-Sep-28.md"
+>
