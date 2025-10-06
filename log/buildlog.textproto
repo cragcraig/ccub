@@ -1188,3 +1188,14 @@ log_entry: <
   >
   details_file: "log/2025-Sep/2025-Sep-28.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2025-Oct-05"
+  title: "Boot cowl shims clamped in place and first rivets squeezed"
+  work_period: <
+    start_time: "1:41PM"
+    end_time: "8:26PM"
+    duration_min: 405
+  >
+  details_file: "log/2025-Oct/2025-Oct-05.md"
+>
