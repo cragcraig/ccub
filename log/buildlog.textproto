@@ -1199,3 +1199,19 @@ log_entry: <
   >
   details_file: "log/2025-Oct/2025-Oct-05.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2025-Oct-10"
+  title: "Match drill and dimple boot cowl sides to firewall"
+  work_period: <
+    start_time: "12:42PM"
+    end_time: "5:18PM"
+    duration_min: 276
+  >
+  work_period: <
+    start_time: "7:30PM"
+    end_time: "8:38PM"
+    duration_min: 68
+  >
+  details_file: "log/2025-Oct/2025-Oct-10.md"
+>
