@@ -1215,3 +1215,14 @@ log_entry: <
   >
   details_file: "log/2025-Oct/2025-Oct-10.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2025-Oct-12"
+  title: "Squeezed boot cowl side wall rivets"
+  work_period: <
+    start_time: "7:11PM"
+    end_time: "9:35PM"
+    duration_min: 144
+  >
+  details_file: "log/2025-Oct/2025-Oct-12.md"
+>
