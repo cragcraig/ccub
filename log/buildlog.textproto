@@ -1226,3 +1226,14 @@ log_entry: <
   >
   details_file: "log/2025-Oct/2025-Oct-12.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2026-Apr-18"
+  title: "Install boot cowl hatch"
+  work_period: <
+    start_time: "1:21PM"
+    end_time: "3:01PM"
+    duration_min: 100
+  >
+  details_file: "log/2026-Apr/2026-Apr-18.md"
+>
