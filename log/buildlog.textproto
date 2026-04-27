@@ -1237,3 +1237,14 @@ log_entry: <
   >
   details_file: "log/2026-Apr/2026-Apr-18.md"
 >
+log_entry: <
+  assembly: "fuselage"
+  date: "2026-Apr-26"
+  title: "Assembled magnetometer bracket"
+  work_period: <
+    start_time: "5:10PM"
+    end_time: "6:37PM"
+    duration_min: 87
+  >
+  details_file: "log/2026-Apr/2026-Apr-26.md"
+>
